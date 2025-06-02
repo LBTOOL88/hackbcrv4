@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HACK BACARAT MARK 4 - Nâng cấp V4 (Chọn Sảnh/Bàn)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Orbitron', monospace;
+      background: black;
+      color: #0f0;
+      overflow: hidden;
+    }
+
+    canvas#matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .intro {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.97);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .intro h2 {
+      color: #0f0;
+      text-shadow: 0 0 7px #0f0, 0 0 12px #0f0;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+      text-align: center;
+    }
+
+    .intro input {
+      padding: 14px 18px;
+      margin: 10px 0;
+      width: 85%;
+      max-width: 320px;
+      border-radius: 5px;
+      border: 1px solid #0f0;
+      background: #101010;
+      color: #0f0;
+      font-size: 1em;
+      box-shadow: 0 0 5px rgba(0,255,0,0.3);
+    }
+    .intro input::placeholder {
+        color: #0a0;
+    }
+    .intro input:focus {
+        outline: none;
+        border-color: #3f3;
+        box-shadow: 0 0 10px #0f0;
+    }
+
+    .intro button {
+      padding: 14px 28px;
+      background: #0f0;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-top: 25px;
+      cursor: pointer;
+      font-size: 1.15em;
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    .intro button:hover {
+        background: #3f3;
+        box-shadow: 0 0 15px #0f0;
+        transform: scale(1.05);
+    }
+    #error {
+        color: red;
+        text-shadow: 0 0 5px red;
+        margin-top: 15px;
+        font-weight: bold;
+        min-height: 1.2em;
+        font-size: 0.9em;
+    }
+
+    .hidden { display: none !important; }
+
+    header {
+      background-color: rgba(10, 10, 10, 0.85);
+      padding: 15px 10px;
+      text-align: center;
+      border-bottom: 2px solid #0f0;
+      box-shadow: 0 2px 10px rgba(0,255,0,0.3);
+    }
+
+    header h1 {
+      color: #0f0;
+      text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+      margin: 0;
+      font-size: 1.8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 1px;
+    }
+
+    header img {
+      height: 40px;
+      vertical-align: middle;
+      margin-left: 15px;
+      filter: drop-shadow(0 0 7px #0f0);
+    }
+
+    .video-container {
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .video-container video {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 10px;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 15px rgba(0,255,0,0.5);
+    }
+
+    .main {
+      padding: 20px;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: rgba(5,5,5,0.75);
+      border-radius: 8px;
+      border: 1px solid #0a0;
+      box-shadow: 0 0 10px rgba(0,255,0,0.2);
+    }
+
+    /* --- Khu vực chọn sảnh/bàn --- */
+    .selection-area {
+      display: flex;
+      flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+      justify-content: space-around;
+      align-items: flex-start; /* Căn chỉnh label và select */
+      margin-bottom: 25px;
+      padding: 15px;
+      background-color: rgba(20,20,20,0.6);
+      border-radius: 6px;
+      border: 1px solid #0f0;
+      box-shadow: 0 0 8px rgba(0,255,0,0.3);
+    }
+
+    .selection-area .form-group { /* Đổi tên div con để rõ ràng hơn */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Căn label bên trái */
+      margin: 5px 10px;
+      flex-basis: 200px; /* Độ rộng cơ bản cho mỗi group */
+      flex-grow: 1;
+    }
+
+    .selection-area label {
+      color: #0f0;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+      text-shadow: 0 0 3px #0f0;
+    }
+
+    .selection-area select {
+      background-color: #101010;
+      color: #0f0;
+      border: 1px solid #0f0;
+      border-radius: 5px;
+      padding: 10px 12px; /* Tăng padding */
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9em;
+      width: 100%; /* Select chiếm toàn bộ width của .form-group */
+      box-shadow: 0 0 5px rgba(0,255,0,0.3);
+      cursor: pointer;
+    }
+
+    .selection-area select:focus {
+      outline: none;
+      border-color: #3f3;
+      box-shadow: 0 0 10px #0f0;
+    }
+
+    .selection-area select option {
+      background-color: #000; /* Nền option tối hơn */
+      color: #0f0;
+      padding: 5px;
+    }
+
+    .selection-area select:disabled {
+      background-color: #2a2a2a;
+      color: #666;
+      border-color: #444;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    /* --- Kết thúc khu vực chọn sảnh/bàn --- */
+
+
+    .betting-area {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .bet-btn {
+      padding: 15px 8px;
+      font-weight: bold;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.85em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+      border: none;
+    }
+
+    .bet-btn#player {
+      background-color: #0D7A7A; color: #E0FFFF; --glow-color: cyan;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+    .bet-btn#banker {
+      background-color: #D32F2F; color: white; --glow-color: #FF4C4C;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+    .bet-btn#tie {
+      background-color: #616D3D; color: #F5F5DC; --glow-color: #DAA520;
+      box-shadow: 0 0 10px rgba(218, 165, 32, 0.6), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+    .bet-btn#playerPair {
+      background-color: #E69500; color: white; --glow-color: #FFA500;
+      box-shadow: 0 0 10px rgba(255, 165, 0, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+    .bet-btn#bankerPair {
+      background-color: #833ab4; color: white; --glow-color: #DA70D6;
+      box-shadow: 0 0 10px rgba(218, 112, 214, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+    .bet-btn#longbao {
+      background-color: #00C853; color: black; --glow-color: #39FF14;
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 3px rgba(0,0,0,0.5) inset;
+    }
+
+    .bet-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color), 0 0 5px rgba(0,0,0,0.4) inset;
+    }
+
+    .bet-btn.active {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px var(--glow-color), 0 0 35px var(--glow-color), 0 0 8px var(--glow-color) inset;
+    }
+    .bet-btn#player.active { background-color: cyan; color:black; }
+    .bet-btn#banker.active { background-color: red; color:white; }
+    .bet-btn#tie.active { background-color: yellow; color:black; }
+    .bet-btn#playerPair.active { background-color: orange; color:black;}
+    .bet-btn#bankerPair.active { background-color: magenta; color:white; }
+    .bet-btn#longbao.active { background-color: lime; color:black; }
+
+
+    .predict-btn {
+      margin-top: 30px;
+      width: 100%;
+      padding: 18px;
+      font-size: 1.3em;
+      background: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+      letter-spacing: 1px;
+    }
+    .predict-btn:hover {
+        background: #3f3;
+        box-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
+        transform: scale(1.02);
+    }
+     .predict-btn:active {
+        transform: scale(0.98);
+        box-shadow: 0 0 10px #0f0;
+     }
+
+    .history {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 28px);
+      grid-template-rows: repeat(3, 28px);
+      gap: 12px;
+      justify-content: center;
+      padding: 20px;
+      background-color: rgba(10,10,10,0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 0, 0.4);
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.6), 0 0 25px rgba(0, 255, 0, 0.4), 0 0 8px rgba(0, 255, 0, 0.7) inset;
+    }
+
+    .dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    }
+    .dot.empty {
+        background: rgba(50,50,50,0.2);
+        border: 1px dashed #090;
+    }
+    .dot.red {
+      background: red;
+      box-shadow: 0 0 12px red, 0 0 18px darkred, 0 0 3px white inset, 0 0 5px red;
+    }
+    .dot.blue {
+      background: cyan;
+      box-shadow: 0 0 12px cyan, 0 0 18px darkblue, 0 0 3px white inset, 0 0 5px cyan;
+    }
+
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="intro" id="intro">
+    <h2>ĐĂNG NHẬP HACK BACARAT MARK 4</h2>
+    <input type="text" id="username" placeholder="Tên tài khoản" />
+    <input type="text" id="code" placeholder="Mã truy cập" />
+    <button onclick="checkCode()">Xác nhận</button>
+    <p id="error"></p>
+  </div>
+
+  <div id="app" class="hidden">
+    <header>
+      <h1>HACK BACARAT MARK 4 <img src="49253552-3667-47ce-8411-102835f4406e.png" alt="Logo"/></h1>
+    </header>
+
+    <div class="video-container">
+      <video autoplay muted loop>
+        <source src="Video_Robot_AI_Chia_Bài.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="main">
+      <div class="selection-area">
+        <div class="form-group">
+          <label for="lobby-select">CHỌN SẢNH:</label>
+          <select id="lobby-select">
+            <option value="">-- Chọn sảnh --</option>
+            <option value="SEXY">SEXY</option>
+            <option value="DG">DG</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="table-select">CHỌN BÀN:</label>
+          <select id="table-select" disabled>
+            <option value="">-- Chọn bàn --</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="betting-area">
+        <div class="bet-btn" id="player">PLAYER</div>
+        <div class="bet-btn" id="banker">BANKER</div>
+        <div class="bet-btn" id="tie">TIE</div>
+        <div class="bet-btn" id="playerPair">P. PAIR</div>
+        <div class="bet-btn" id="bankerPair">B. PAIR</div>
+        <div class="bet-btn" id="longbao">LONG BẢO</div>
+      </div>
+
+      <button class="predict-btn" onclick="predictResult()">DỰ ĐOÁN</button>
+
+      <div class="history" id="history">
+        <div class="dot empty" id="dot0"></div><div class="dot empty" id="dot1"></div><div class="dot empty" id="dot2"></div>
+        <div class="dot empty" id="dot3"></div><div class="dot empty" id="dot4"></div><div class="dot empty" id="dot5"></div>
+        <div class="dot empty" id="dot6"></div><div class="dot empty" id="dot7"></div><div class="dot empty" id="dot8"></div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="soundEffect" src="deal.mp3"></audio>
+
+  <script>
+    const validCodes = ["MARK4-001","MARK4-002","MARK4-003","MARK4-004","MARK4-005","MARK4-006","MARK4-007","MARK4-008","MARK4-009","MARK4-010","MARK4-011","MARK4-012","MARK4-013","MARK4-014","MARK4-015","MARK4-016","MARK4-017","MARK4-018","MARK4-019","MARK4-020"];
+
+    function checkCode() {
+      const codeInput = document.getElementById("code");
+      const usernameInput = document.getElementById("username");
+      const error = document.getElementById("error");
+      
+      if (usernameInput.value.trim() === "") {
+        error.textContent = "Vui lòng nhập Tên tài khoản!";
+        usernameInput.focus();
+        return;
+      }
+      if (codeInput.value.trim() === "") {
+        error.textContent = "Vui lòng nhập Mã truy cập!";
+        codeInput.focus();
+        return;
+      }
+
+      const code = codeInput.value.trim().toUpperCase();
+      if (validCodes.includes(code)) {
+        document.getElementById("intro").classList.add("hidden");
+        document.getElementById("app").classList.remove("hidden");
+        error.textContent = "";
+      } else {
+        error.textContent = "Mã truy cập hoặc Tên tài khoản không hợp lệ!";
+      }
+    }
+
+    const historyContainer = document.getElementById('history');
+    const sound = document.getElementById('soundEffect');
+
+    let dotIndex = 0;
+    function addDot(color) {
+      const currentDotId = "dot" + (dotIndex % 9);
+      const dotElement = document.getElementById(currentDotId);
+      if (dotElement) {
+          dotElement.className = "dot " + color;
+      }
+      dotIndex++;
+    }
+
+    function speakResult(text) {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'en-US';
+        speechSynthesis.speak(msg);
+      } else {
+        console.warn("Trình duyệt không hỗ trợ SpeechSynthesis.");
+      }
+    }
+
+    function predictResult() {
+      const selectedLobby = document.getElementById('lobby-select').value;
+      const selectedTable = document.getElementById('table-select').value;
+
+      // Kiểm tra xem sảnh và bàn đã được chọn chưa
+      if (!selectedLobby) {
+        alert("Vui lòng chọn một sảnh!");
+        return;
+      }
+      if (!selectedTable) {
+        alert("Vui lòng chọn một bàn!");
+        return;
+      }
+      // Thông tin sảnh và bàn đã chọn, có thể sử dụng cho logic dự đoán sau này
+      console.log("Sảnh đã chọn:", selectedLobby, "Bàn đã chọn:", selectedTable);
+
+
+      document.querySelectorAll('.betting-area .bet-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      if(sound) sound.play().catch(e => console.log("Lỗi phát âm thanh:", e));
+
+
+      const predictButton = document.querySelector('.predict-btn');
+      predictButton.textContent = "ĐANG PHÂN TÍCH...";
+      predictButton.disabled = true;
+
+
+      setTimeout(() => {
+        const isPlayer = Math.random() < 0.48;
+        const isTie = Math.random() < 0.095;
+
+        if (isTie) {
+            document.getElementById('tie').classList.add('active');
+            speakResult('Tie');
+        } else if (isPlayer) {
+          document.getElementById('player').classList.add('active');
+          addDot('blue');
+          speakResult('Player');
+        } else {
+          document.getElementById('banker').classList.add('active');
+          addDot('red');
+          speakResult('Banker');
+        }
+        
+        // Các cược phụ như Pair, nếu trúng thì active:
+        if (Math.random() < 0.15) document.getElementById('playerPair').classList.add('active');
+        if (Math.random() < 0.15) document.getElementById('bankerPair').classList.add('active');
+        
+        predictButton.textContent = "DỰ ĐOÁN";
+        predictButton.disabled = false;
+
+      }, 3000);
+    }
+
+    // --- LOGIC CHỌN SẢNH VÀ BÀN ---
+    const lobbySelect = document.getElementById('lobby-select');
+    const tableSelect = document.getElementById('table-select');
+
+    const tablesByLobby = {
+      SEXY: ["C01", "C02", "C03", "C04", "C05", "C15", "C16", "BCR1", "BCR2", "BCR3", "BCR15"],
+      DG: ["DG01", "DG02", "DG03"]
+    };
+
+    function populateTables() {
+      const selectedLobby = lobbySelect.value;
+      tableSelect.innerHTML = '<option value="">-- Chọn bàn --</option>'; // Xóa tùy chọn cũ, thêm mặc định
+
+      if (selectedLobby && tablesByLobby[selectedLobby]) {
+        tablesByLobby[selectedLobby].forEach(table => {
+          const option = document.createElement('option');
+          option.value = table;
+          option.textContent = table;
+          tableSelect.appendChild(option);
+        });
+        tableSelect.disabled = false; // Kích hoạt chọn bàn
+      } else {
+        tableSelect.disabled = true; // Vô hiệu hóa nếu không có sảnh hợp lệ
+      }
+    }
+    // --- KẾT THÚC LOGIC CHỌN SẢNH VÀ BÀN ---
+
+
+    // --- MATRIX RAIN BACKGROUND ---
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let fontSize = 14;
+    let chars = '01'.split('');
+    let columns;
+    let drops;
+
+    function resizeCanvas() {
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        columns = Math.floor(canvas.width / fontSize);
+        drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1 + Math.floor(Math.random() * (canvas.height / fontSize));
+        }
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    
+    window.addEventListener('resize', resizeCanvas);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if(sound && typeof sound.load === 'function') {
+            sound.load();
+        }
+        
+        // Khởi tạo cho Matrix Rain
+        resizeCanvas();
+        setInterval(draw, 33);
+
+        // Khởi tạo cho chọn sảnh/bàn
+        if(lobbySelect) { // Kiểm tra lobbySelect tồn tại
+            lobbySelect.addEventListener('change', populateTables);
+        }
+        // Gọi populateTables lần đầu để đảm bảo trạng thái disabled của tableSelect là đúng
+        // (nếu không có sảnh nào được chọn sẵn)
+        populateTables();
+    });
+
+  </script>
+</body>
+</html>
