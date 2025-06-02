@@ -3,18 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HACK BACARAT MARK 4 - Nâng cấp V4 (Chọn Sảnh/Bàn + Tawk.to)</title>
+  <title>HACK BACARAT MARK 4 - Animated Text Intro</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-green: #00ff7f; /* SpringGreen */
+      --bright-green-glow: rgba(0, 255, 127, 1);
+      --dark-green-glow: rgba(0, 255, 127, 0.7);
+      --text-green: #00e676;
+      --text-light: #f0f0f0;
+      --bg-black: #000000;
+      --bg-dark-theme: #0d1117;
+      --container-bg: rgba(10, 30, 20, 0.88);
+      --input-bg: #161b22;
+      --border-color: rgba(0, 255, 127, 0.25);
+      --border-focus-color: var(--primary-green);
+      --button-radius: 8px;
+      --container-radius: 12px;
+      --shadow-color-soft: rgba(0, 255, 127, 0.15);
+      --shadow-color-medium: rgba(0, 255, 127, 0.3);
+      --shadow-color-strong: rgba(0, 255, 127, 0.5);
+      --activate-orange: #ff8c00;
+      --activate-orange-glow: #ffa500;
+      --activate-orange-shadow: rgba(255, 140, 0, 0.4);
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: 'Orbitron', monospace;
-      background: black;
-      color: #0f0;
-      overflow: hidden; /* Quan trọng cho Matrix rain và có thể ảnh hưởng cách Tawk.to render nếu có xung đột hiếm gặp */
+      background: var(--bg-black);
+      color: var(--text-green);
+      overflow-x: hidden;
+      overflow-y: auto;
     }
+
+    /* --- Intro Text Overlay Styling (Updated) --- */
+    #introTextOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-black);
+      color: var(--text-green); /* Default text color for lines */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6em; /* Base font size for intro text */
+      z-index: 10000;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 1;
+      transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
+      visibility: visible;
+    }
+    #introTextOverlay.hidden-overlay {
+        opacity: 0;
+        visibility: hidden;
+    }
+    #introTextOverlay p {
+        margin: 8px 0; /* Spacing between lines */
+        min-height: 1.2em; /* Ensure space even when empty before typing */
+        white-space: pre-wrap; /* Important for typewriter effect */
+    }
+    #introTextOverlay .strong-line { /* For "LONGBAO 88 A.I BACARAT" */
+        font-size: 1.5em; /* Larger font for this line */
+        color: var(--bright-green-glow);
+        text-shadow: 0 0 12px var(--dark-green-glow);
+        letter-spacing: 1.5px;
+        font-weight: 700; /* Bolder */
+        margin: 15px 0 !important; /* More emphasis with spacing */
+    }
+    .typewriter-cursor::after { /* Blinking cursor for typewriter effect */
+        content: '_';
+        animation: blink-caret 0.85s step-end infinite;
+        color: var(--primary-green);
+        font-weight: bold;
+        margin-left: 2px;
+    }
+    @keyframes blink-caret {
+        from, to { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    /* --- End Intro Text Overlay Styling --- */
+
 
     canvas#matrix {
       position: fixed;
@@ -25,193 +101,199 @@
       z-index: -1;
     }
 
-    .intro {
+    .intro { /* Màn hình đăng nhập */
       position: absolute;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.97);
+      background: rgba(0,0,0,0.98);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 10; /* Đảm bảo intro trên Matrix rain nhưng dưới Tawk.to (Tawk.to tự quản z-index cao hơn) */
+      z-index: 20;
       padding: 20px;
       box-sizing: border-box;
     }
 
+
     .intro h2 {
-      color: #0f0;
-      text-shadow: 0 0 7px #0f0, 0 0 12px #0f0;
-      margin-bottom: 30px;
-      font-size: 2.2em;
+      color: var(--primary-green);
+      text-shadow: 0 0 8px var(--dark-green-glow), 0 0 15px var(--dark-green-glow), 0 0 25px var(--dark-green-glow);
+      margin-bottom: 35px;
+      font-size: 2.5em;
       text-align: center;
+      letter-spacing: 1.5px;
     }
 
     .intro input {
-      padding: 14px 18px;
-      margin: 10px 0;
-      width: 85%;
-      max-width: 320px;
-      border-radius: 5px;
-      border: 1px solid #0f0;
-      background: #101010;
-      color: #0f0;
+      padding: 16px 20px;
+      margin: 12px 0;
+      width: 90%;
+      max-width: 350px;
+      border-radius: var(--button-radius);
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      color: var(--text-light);
       font-size: 1em;
-      box-shadow: 0 0 5px rgba(0,255,0,0.3);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 5px var(--shadow-color-soft);
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .intro input::placeholder {
-        color: #0a0;
+        color: rgba(0, 230, 118, 0.6);
     }
     .intro input:focus {
         outline: none;
-        border-color: #3f3;
-        box-shadow: 0 0 10px #0f0;
+        border-color: var(--border-focus-color);
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 12px var(--dark-green-glow), 0 0 0 3px rgba(0, 255, 127, 0.1);
     }
 
     .intro button {
-      padding: 14px 28px;
-      background: #0f0;
-      color: #000;
+      padding: 16px 35px;
+      background: var(--primary-green);
+      color: var(--bg-dark-theme);
       border: none;
       font-weight: bold;
-      border-radius: 5px;
-      margin-top: 25px;
+      border-radius: var(--button-radius);
+      margin-top: 30px;
       cursor: pointer;
-      font-size: 1.15em;
+      font-size: 1.25em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(0, 255, 127, 0.25), 0 2px 5px rgba(0,0,0,0.2);
       transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
     }
     .intro button:hover {
-        background: #3f3;
-        box-shadow: 0 0 15px #0f0;
-        transform: scale(1.05);
+        background: var(--bright-green-glow);
+        color: var(--bg-black);
+        box-shadow: 0 6px 20px var(--shadow-color-medium), 0 3px 8px rgba(0,0,0,0.3);
+        transform: translateY(-3px) scale(1.03);
     }
     #error {
-        color: red;
-        text-shadow: 0 0 5px red;
-        margin-top: 15px;
-        font-weight: bold;
-        min-height: 1.2em;
-        font-size: 0.9em;
+        color: #ff6b6b;
+        text-shadow: 0 0 5px rgba(255, 107, 107, 0.6);
+        margin-top: 20px;
+        font-size: 0.95em;
     }
 
     .hidden { display: none !important; }
 
+    #app {
+        z-index: 5;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
     header {
-      background-color: rgba(10, 10, 10, 0.85);
-      padding: 15px 10px;
+      background-color: rgba(13, 22, 18, 0.92);
+      padding: 18px 15px;
       text-align: center;
-      border-bottom: 2px solid #0f0;
-      box-shadow: 0 2px 10px rgba(0,255,0,0.3);
-      position: relative; /* Để đảm bảo z-index hoạt động đúng nếu cần */
-      z-index: 1; /* Trên Matrix rain, dưới Tawk.to */
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 3px 20px var(--shadow-color-soft);
+      position: relative;
     }
 
     header h1 {
-      color: #0f0;
-      text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+      color: var(--primary-green);
+      text-shadow: 0 0 7px var(--dark-green-glow), 0 0 12px var(--dark-green-glow);
       margin: 0;
-      font-size: 1.8em;
+      font-size: 2em;
       display: flex;
       align-items: center;
       justify-content: center;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
 
     header img {
       height: 40px;
       vertical-align: middle;
       margin-left: 15px;
-      filter: drop-shadow(0 0 7px #0f0);
+      filter: drop-shadow(0 0 10px var(--dark-green-glow));
     }
 
     .video-container {
       text-align: center;
-      padding: 20px 10px;
+      padding: 25px 10px;
       position: relative;
-      z-index: 1;
     }
 
     .video-container video {
       width: 100%;
-      max-width: 380px;
-      border-radius: 10px;
-      border: 2px solid #0f0;
-      box-shadow: 0 0 15px rgba(0,255,0,0.5);
+      max-width: 400px;
+      border-radius: var(--container-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 5px 25px rgba(0, 255, 127, 0.1);
     }
 
     .main {
-      padding: 20px;
-      max-width: 600px;
-      margin: 20px auto;
-      background-color: rgba(5,5,5,0.75);
-      border-radius: 8px;
-      border: 1px solid #0a0;
-      box-shadow: 0 0 10px rgba(0,255,0,0.2);
+      padding: 25px;
+      max-width: 640px;
+      margin: 25px auto;
+      background-color: var(--container-bg);
+      border-radius: var(--container-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 15px var(--shadow-color-soft);
       position: relative;
-      z-index: 1; /* Đảm bảo nội dung chính trên Matrix rain nhưng dưới Tawk.to */
-      /* Nếu nội dung chính cần scroll và Tawk.to bị che, cần xem xét lại overflow của body/html */
-      /* Hoặc đảm bảo Tawk.to được inject vào root của body và không bị ảnh hưởng bởi overflow cha */
     }
 
-    /* --- Khu vực chọn sảnh/bàn --- */
     .selection-area {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 25px;
-      padding: 15px;
-      background-color: rgba(20,20,20,0.6);
-      border-radius: 6px;
-      border: 1px solid #0f0;
-      box-shadow: 0 0 8px rgba(0,255,0,0.3);
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: rgba(15, 35, 15, 0.6);
+      border-radius: var(--container-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.25);
     }
 
     .selection-area .form-group {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin: 5px 10px;
-      flex-basis: 200px;
-      flex-grow: 1;
+      margin: 8px 0;
+      flex-basis: calc(50% - 15px);
+      min-width: 180px;
     }
 
     .selection-area label {
-      color: #0f0;
-      margin-bottom: 8px;
-      font-size: 0.95em;
-      text-shadow: 0 0 3px #0f0;
+      color: var(--primary-green);
+      margin-bottom: 10px;
+      font-size: 1em;
+      text-shadow: 0 0 4px var(--dark-green-glow);
     }
 
     .selection-area select {
-      background-color: #101010;
-      color: #0f0;
-      border: 1px solid #0f0;
-      border-radius: 5px;
-      padding: 10px 12px;
+      background: var(--input-bg);
+      color: var(--text-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--button-radius);
+      padding: 14px 18px;
       font-family: 'Orbitron', monospace;
-      font-size: 0.9em;
+      font-size: 0.95em;
       width: 100%;
-      box-shadow: 0 0 5px rgba(0,255,0,0.3);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 5px var(--shadow-color-soft);
       cursor: pointer;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
     .selection-area select:focus {
       outline: none;
-      border-color: #3f3;
-      box-shadow: 0 0 10px #0f0;
+      border-color: var(--border-focus-color);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 12px var(--dark-green-glow), 0 0 0 3px rgba(0, 255, 127, 0.1);
     }
 
     .selection-area select option {
-      background-color: #000;
-      color: #0f0;
-      padding: 5px;
+      background-color: var(--bg-dark-theme);
+      color: var(--text-green);
+      padding: 8px;
     }
 
     .selection-area select:disabled {
-      background-color: #2a2a2a;
-      color: #666;
-      border-color: #444;
+      background-color: #222831;
+      color: #555e68;
+      border-color: #393e46;
       cursor: not-allowed;
       box-shadow: none;
     }
@@ -220,127 +302,344 @@
     .betting-area {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      gap: 18px;
     }
 
     .bet-btn {
-      padding: 15px 8px;
+      padding: 18px 10px;
       font-weight: bold;
-      color: white;
-      border-radius: 8px;
+      border-radius: var(--button-radius);
       cursor: pointer;
       text-align: center;
-      font-size: 0.85em;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-      border: none;
+      font-size: 0.9em;
+      color: var(--text-light);
+      border: 1px solid transparent;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease-out, box-shadow 0.25s ease-out, background-color 0.25s ease-out, border-color 0.25s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    .bet-btn::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+        border-radius: var(--button-radius);
+        opacity: 0.7;
+        transition: opacity 0.3s;
+    }
+    .bet-btn:hover::before {
+        opacity: 1;
     }
 
-    .bet-btn#player {
-      background-color: #0D7A7A; color: #E0FFFF; --glow-color: cyan;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
-    }
-    .bet-btn#banker {
-      background-color: #D32F2F; color: white; --glow-color: #FF4C4C;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
-    }
-    .bet-btn#tie {
-      background-color: #616D3D; color: #F5F5DC; --glow-color: #DAA520;
-      box-shadow: 0 0 10px rgba(218, 165, 32, 0.6), 0 0 3px rgba(0,0,0,0.5) inset;
-    }
-    .bet-btn#playerPair {
-      background-color: #E69500; color: white; --glow-color: #FFA500;
-      box-shadow: 0 0 10px rgba(255, 165, 0, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
-    }
-    .bet-btn#bankerPair {
-      background-color: #833ab4; color: white; --glow-color: #DA70D6;
-      box-shadow: 0 0 10px rgba(218, 112, 214, 0.7), 0 0 3px rgba(0,0,0,0.5) inset;
-    }
-    .bet-btn#longbao {
-      background-color: #00C853; color: black; --glow-color: #39FF14;
-      box-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 3px rgba(0,0,0,0.5) inset;
+    .bet-btn:not(.active) {
+      box-shadow: 0 3px 7px rgba(0,0,0,0.3), inset 0 1px 1px rgba(0,0,0,0.2), inset 0 -2px 3px rgba(0,0,0,0.15);
     }
 
-    .bet-btn:hover {
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color), 0 0 5px rgba(0,0,0,0.4) inset;
+    .bet-btn#player { background-color: #007A7A; --btn-glow-color: #00FFFF; --btn-border-color: #00B8B8;}
+    .bet-btn#banker { background-color: #B32D2D; --btn-glow-color: #FF5C5C; --btn-border-color: #D94A4A;}
+    .bet-btn#tie    { background-color: #999922; --btn-glow-color: #FFFF66; --btn-border-color: #B8B844; color: #111;}
+    .bet-btn#playerPair { background-color: #CC7A00; --btn-glow-color: #FFA500; --btn-border-color: #E69500;}
+    .bet-btn#bankerPair { background-color: #993399; --btn-glow-color: #FF66FF; --btn-border-color: #B852B8;}
+    .bet-btn#longbao    { background-color: #228B22; --btn-glow-color: #32CD32; --btn-border-color: #4CAF50; color: var(--text-light);}
+
+    .bet-btn:hover:not(.active) {
+      transform: translateY(-3px) scale(1.04);
+      border-color: var(--btn-border-color);
+      box-shadow: 0 0 12px var(--btn-glow-color), 0 0 20px var(--btn-glow-color), 
+                  0 5px 10px rgba(0,0,0,0.25), 
+                  inset 0 1px 1px rgba(0,0,0,0.1);
     }
 
     .bet-btn.active {
-      transform: scale(1.08);
-      box-shadow: 0 0 20px var(--glow-color), 0 0 35px var(--glow-color), 0 0 8px var(--glow-color) inset;
+      transform: scale(1.06) translateY(-1px);
+      border-color: var(--btn-glow-color) !important;
+      box-shadow: 0 0 18px var(--btn-glow-color), 0 0 30px var(--btn-glow-color),
+                  0 0 10px var(--btn-glow-color) inset,
+                  0 2px 5px rgba(0,0,0,0.2);
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
-    .bet-btn#player.active { background-color: cyan; color:black; }
-    .bet-btn#banker.active { background-color: red; color:white; }
-    .bet-btn#tie.active { background-color: yellow; color:black; }
-    .bet-btn#playerPair.active { background-color: orange; color:black;}
-    .bet-btn#bankerPair.active { background-color: magenta; color:white; }
-    .bet-btn#longbao.active { background-color: lime; color:black; }
+    .bet-btn#player.active { background-color: var(--btn-glow-color); color: #003c3c; }
+    .bet-btn#banker.active { background-color: var(--btn-glow-color); color: var(--text-light); }
+    .bet-btn#tie.active    { background-color: var(--btn-glow-color); color: #333300; }
+    .bet-btn#playerPair.active { background-color: var(--btn-glow-color); color: #4d2c00; }
+    .bet-btn#bankerPair.active { background-color: var(--btn-glow-color); color: var(--text-light); }
+    .bet-btn#longbao.active    { background-color: var(--btn-glow-color); color: #003300; }
 
 
     .predict-btn {
-      margin-top: 30px;
+      margin-top: 35px;
       width: 100%;
-      padding: 18px;
-      font-size: 1.3em;
-      background: #0f0;
-      color: #000;
+      padding: 20px;
+      font-size: 1.45em;
+      background: var(--primary-green);
+      color: var(--bg-dark-theme);
       border: none;
-      border-radius: 6px;
+      border-radius: var(--button-radius);
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
-      letter-spacing: 1px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 18px rgba(0, 255, 127, 0.3), 0 2px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-out;
     }
     .predict-btn:hover {
-        background: #3f3;
-        box-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
-        transform: scale(1.02);
+        background: var(--bright-green-glow);
+        color: var(--bg-black);
+        box-shadow: 0 7px 25px var(--shadow-color-medium), 0 4px 10px rgba(0,0,0,0.25);
+        transform: translateY(-4px) scale(1.02);
     }
      .predict-btn:active {
-        transform: scale(0.98);
-        box-shadow: 0 0 10px #0f0;
+        transform: translateY(-1px) scale(0.98);
+        box-shadow: 0 3px 10px var(--shadow-color-medium), 0 1px 3px rgba(0,0,0,0.2);
      }
 
+    .activate-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 18px;
+      font-size: 1.2em;
+      background: var(--activate-orange);
+      color: var(--bg-dark-theme);
+      border: none;
+      border-radius: var(--button-radius);
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      box-shadow: 0 4px 15px var(--activate-orange-shadow), 0 2px 5px rgba(0,0,0,0.15);
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-out;
+    }
+    .activate-btn:hover {
+      background: var(--activate-orange-glow);
+      box-shadow: 0 6px 20px var(--activate-orange-shadow), 0 3px 8px rgba(0,0,0,0.2);
+      transform: translateY(-3px) scale(1.02);
+    }
+    .activate-btn:active {
+      transform: translateY(-1px) scale(0.98);
+      box-shadow: 0 3px 10px var(--activate-orange-shadow), 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+
     .history {
-      margin-top: 30px;
+      margin-top: 35px;
       display: grid;
-      grid-template-columns: repeat(3, 28px);
-      grid-template-rows: repeat(3, 28px);
-      gap: 12px;
+      grid-template-columns: repeat(3, 30px);
+      grid-template-rows: repeat(3, 30px);
+      gap: 15px;
       justify-content: center;
-      padding: 20px;
-      background-color: rgba(10,10,10,0.6);
-      border-radius: 8px;
-      border: 1px solid rgba(0, 255, 0, 0.4);
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.6), 0 0 25px rgba(0, 255, 0, 0.4), 0 0 8px rgba(0, 255, 0, 0.7) inset;
+      padding: 25px;
+      background-color: rgba(10, 30, 20, 0.75);
+      border-radius: var(--container-radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 0 20px var(--shadow-color-soft), inset 0 0 20px rgba(0,0,0,0.35);
     }
 
     .dot {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      transition: background-color 0.5s ease, box-shadow 0.5s ease;
+      transition: background-color 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
     }
     .dot.empty {
-        background: rgba(50,50,50,0.2);
-        border: 1px dashed #090;
+        background: rgba(0, 255, 127, 0.08);
+        border: 1px dashed rgba(0, 255, 127, 0.4);
+        box-shadow: inset 0 0 8px rgba(0, 255, 127, 0.1);
     }
     .dot.red {
-      background: red;
-      box-shadow: 0 0 12px red, 0 0 18px darkred, 0 0 3px white inset, 0 0 5px red;
+      background: #FF5C5C;
+      box-shadow: 0 0 12px #FF5C5C, 0 0 18px #FF5C5C, inset 0 0 8px rgba(0,0,0,0.4);
     }
     .dot.blue {
-      background: cyan;
-      box-shadow: 0 0 12px cyan, 0 0 18px darkblue, 0 0 3px white inset, 0 0 5px cyan;
+      background: #00FFFF;
+      box-shadow: 0 0 12px #00FFFF, 0 0 18px #00FFFF, inset 0 0 8px rgba(0,0,0,0.4);
+    }
+
+    /* --- Responsive Styles --- */
+    @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+      }
+      #introTextOverlay {
+          font-size: 1.3em;
+      }
+      #introTextOverlay .strong-line { /* Giảm kích thước dòng strong trên mobile */
+          font-size: 1.2em; 
+          margin: 10px 0 !important;
+      }
+
+      .intro h2 {
+        font-size: 2em;
+        margin-bottom: 25px;
+      }
+      .intro input {
+        max-width: 90%;
+        padding: 14px 18px;
+        font-size: 0.95em;
+      }
+      .intro button {
+        padding: 14px 30px;
+        font-size: 1.1em;
+        margin-top: 25px;
+      }
+
+      header h1 {
+        font-size: 1.5em;
+        letter-spacing: 1px;
+      }
+      header img {
+        height: 30px;
+        margin-left: 10px;
+      }
+
+      .main {
+        padding: 15px;
+        margin: 15px auto;
+        width: calc(100% - 20px);
+        box-sizing: border-box;
+      }
+
+      .video-container video {
+        max-width: 95%;
+      }
+
+      .selection-area {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      .selection-area .form-group {
+        flex-basis: 100%;
+        margin-bottom: 15px;
+      }
+      .selection-area .form-group:last-child {
+        margin-bottom: 0;
+      }
+      .selection-area label {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+      }
+      .selection-area select {
+        padding: 12px 15px;
+        font-size: 0.9em;
+      }
+
+      .betting-area {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .bet-btn {
+        font-size: 0.8em;
+        padding: 16px 8px;
+      }
+
+      .predict-btn {
+        padding: 18px;
+        font-size: 1.2em;
+        letter-spacing: 1.5px;
+        margin-top: 25px;
+      }
+      .activate-btn {
+        padding: 16px;
+        font-size: 1.05em;
+      }
+
+      .history {
+        margin-top: 25px;
+        padding: 15px;
+        gap: 10px;
+        grid-template-columns: repeat(3, 24px);
+        grid-template-rows: repeat(3, 24px);
+      }
+      .history .dot {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+       #introTextOverlay {
+          font-size: 1.2em; /* Kích thước nhỏ hơn nữa cho màn hình rất nhỏ */
+      }
+      #introTextOverlay .strong-line {
+          font-size: 1.15em;
+          margin: 8px 0 !important;
+      }
+      .intro h2 {
+        font-size: 1.7em;
+      }
+      .intro input {
+        padding: 12px 15px;
+        font-size: 0.9em;
+      }
+      .intro button {
+        padding: 12px 25px;
+        font-size: 1em;
+      }
+
+      header h1 {
+        font-size: 1.3em;
+      }
+      header img {
+        height: 28px;
+      }
+      
+      .main {
+          padding: 10px;
+      }
+
+      .selection-area .form-group {
+          min-width: unset;
+      }
+      .selection-area label {
+        font-size: 0.85em;
+      }
+       .selection-area select {
+        font-size: 0.85em;
+        padding: 10px 12px;
+      }
+
+
+      .betting-area {
+        gap: 10px;
+      }
+      .bet-btn {
+        font-size: 0.7em;
+        padding: 12px 5px;
+      }
+
+      .predict-btn {
+        padding: 16px;
+        font-size: 1.1em;
+      }
+       .activate-btn {
+        padding: 14px;
+        font-size: 1em;
+      }
+
+      .history {
+        padding: 12px;
+        gap: 8px;
+        grid-template-columns: repeat(3, 20px);
+        grid-template-rows: repeat(3, 20px);
+      }
+      .history .dot {
+        width: 20px;
+        height: 20px;
+      }
     }
 
   </style>
 </head>
 <body>
+  <div id="introTextOverlay">
+      <p id="introLine1"></p>
+      <p id="introLine2"></p>
+      <p id="introLine3"></p>
+  </div>
   <canvas id="matrix"></canvas>
 
-  <div class="intro" id="intro">
+  <div class="intro" id="loginScreen">
     <h2>ĐĂNG NHẬP HACK BACARAT MARK 4</h2>
     <input type="text" id="username" placeholder="Tên tài khoản" />
     <input type="text" id="code" placeholder="Mã truy cập" />
@@ -348,7 +647,8 @@
     <p id="error"></p>
   </div>
 
-  <div id="app" class="hidden"> <header>
+  <div id="app" class="hidden">
+    <header>
       <h1>HACK BACARAT MARK 4 <img src="49253552-3667-47ce-8411-102835f4406e.png" alt="Logo"/></h1>
     </header>
 
@@ -382,10 +682,12 @@
         <div class="bet-btn" id="tie">TIE</div>
         <div class="bet-btn" id="playerPair">P. PAIR</div>
         <div class="bet-btn" id="bankerPair">B. PAIR</div>
-        <div class="bet-btn" id="longbao">LONG BẢO</div>
+        <div class="bet-btn active" id="longbao">LONG BẢO</div>
       </div>
 
       <button class="predict-btn" onclick="predictResult()">DỰ ĐOÁN</button>
+      <button class="activate-btn" id="activateAutoPlayBtn">KÍCH HOẠT TỰ ĐỘNG CHƠI</button>
+
 
       <div class="history" id="history">
         <div class="dot empty" id="dot0"></div><div class="dot empty" id="dot1"></div><div class="dot empty" id="dot2"></div>
@@ -395,10 +697,78 @@
     </div>
   </div>
 
-  <audio id="soundEffect" src="deal.mp3"></audio>
+  <audio id="soundEffect" src="deal.mp3"></audio> <script>
+    var Tawk_API = Tawk_API || {};
+    Tawk_API.onLoad = function(){
+        if (Tawk_API && typeof Tawk_API.hideWidget === 'function') {
+            Tawk_API.hideWidget();
+        }
+    };
 
-  <script>
     const validCodes = ["MARK4-001","MARK4-002","MARK4-003","MARK4-004","MARK4-005","MARK4-006","MARK4-007","MARK4-008","MARK4-009","MARK4-010","MARK4-011","MARK4-012","MARK4-013","MARK4-014","MARK4-015","MARK4-016","MARK4-017","MARK4-018","MARK4-019","MARK4-020"];
+
+    const introTextOverlayElement = document.getElementById('introTextOverlay');
+    const loginScreenElement = document.getElementById('loginScreen');
+    const appScreen = document.getElementById('app');
+
+    const introTextLines = [
+        { elId: 'introLine1', text: "ĐANG KHỞI ĐỘNG...", speed: 80, isStrong: false, delayAfter: 400 },
+        { elId: 'introLine2', text: "LONGBAO 88 A.I BACARAT", speed: 100, isStrong: true, delayAfter: 600 },
+        { elId: 'introLine3', text: "A.I ĐẦU TIÊN VÀ THÔNG MINH NHẤT CHƠI BỘ MÔN BACARAT", speed: 60, isStrong: false, delayAfter: 1500 }
+    ];
+
+    function typeWriterEffect(element, text, speed, callback) {
+        let i = 0;
+        element.innerHTML = ''; // Xóa nội dung cũ
+        element.classList.add('typewriter-cursor'); // Thêm con trỏ
+        
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                element.classList.remove('typewriter-cursor'); // Xóa con trỏ khi xong
+                if (callback) setTimeout(callback, 50); // Delay nhỏ trước khi gọi callback
+            }
+        }
+        type();
+    }
+
+    function startTextIntroAnimation() {
+        let currentLineIndex = 0;
+        function animateNextIntroLine() {
+            if (currentLineIndex < introTextLines.length) {
+                const lineData = introTextLines[currentLineIndex];
+                const lineElement = document.getElementById(lineData.elId);
+                
+                if (lineElement) {
+                    if (lineData.isStrong) {
+                        lineElement.classList.add('strong-line');
+                    }
+                    typeWriterEffect(lineElement, lineData.text, lineData.speed, () => {
+                        currentLineIndex++;
+                        setTimeout(animateNextIntroLine, lineData.delayAfter || 300);
+                    });
+                } else { // Nếu không tìm thấy element, bỏ qua và thử dòng tiếp
+                    currentLineIndex++;
+                    animateNextIntroLine();
+                }
+            } else {
+                // Tất cả các dòng đã chạy xong, ẩn overlay
+                hideIntroOverlay();
+            }
+        }
+        animateNextIntroLine(); // Bắt đầu chạy dòng đầu tiên
+    }
+
+    function hideIntroOverlay() {
+        if (introTextOverlayElement) {
+            introTextOverlayElement.classList.add('hidden-overlay');
+            // Màn hình đăng nhập sẽ tự hiện ra do overlay biến mất
+        }
+    }
+
 
     function checkCode() {
       const codeInput = document.getElementById("code");
@@ -418,8 +788,8 @@
 
       const code = codeInput.value.trim().toUpperCase();
       if (validCodes.includes(code)) {
-        document.getElementById("intro").classList.add("hidden");
-        document.getElementById("app").classList.remove("hidden");
+        loginScreenElement.classList.add("hidden");
+        appScreen.classList.remove("hidden");
         error.textContent = "";
       } else {
         error.textContent = "Mã truy cập hoặc Tên tài khoản không hợp lệ!";
@@ -427,7 +797,7 @@
     }
 
     const historyContainer = document.getElementById('history');
-    const sound = document.getElementById('soundEffect');
+    const sound = document.getElementById('soundEffect'); // Âm thanh khi dự đoán
 
     let dotIndex = 0;
     function addDot(color) {
@@ -439,7 +809,7 @@
       dotIndex++;
     }
 
-    function speakResult(text) {
+    function speakResult(text) { // Vẫn giữ hàm này nếu bạn muốn dùng cho kết quả dự đoán
       if ('speechSynthesis' in window) {
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'en-US';
@@ -481,15 +851,15 @@
 
         if (isTie) {
             document.getElementById('tie').classList.add('active');
-            speakResult('Tie');
+            speakResult('Tie'); // Giọng nói cho kết quả
         } else if (isPlayer) {
           document.getElementById('player').classList.add('active');
           addDot('blue');
-          speakResult('Player');
+          speakResult('Player'); // Giọng nói cho kết quả
         } else {
           document.getElementById('banker').classList.add('active');
           addDot('red');
-          speakResult('Banker');
+          speakResult('Banker'); // Giọng nói cho kết quả
         }
         
         if (Math.random() < 0.15) document.getElementById('playerPair').classList.add('active');
@@ -547,7 +917,9 @@
     function draw() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F0';
+      const rootStyles = getComputedStyle(document.documentElement);
+      const matrixRainColor = rootStyles.getPropertyValue('--primary-green').trim() || '#00FF7F';
+      ctx.fillStyle = matrixRainColor;
       ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < drops.length; i++) {
@@ -564,27 +936,52 @@
     window.addEventListener('resize', resizeCanvas);
 
     document.addEventListener('DOMContentLoaded', () => {
-        if(sound && typeof sound.load === 'function') {
+        // Bắt đầu hiệu ứng intro text
+        if (introTextOverlayElement && loginScreenElement) {
+            startTextIntroAnimation();
+        } else {
+            hideIntroOverlay(); // Fallback nếu không có element
+        }
+
+        if(sound && typeof sound.load === 'function') { // sound là soundEffect cho game
             sound.load();
         }
         
         resizeCanvas();
-        setInterval(draw, 33);
+        setTimeout(() => {
+            setInterval(draw, 33);
+        }, 100);
+
 
         if(lobbySelect) {
             lobbySelect.addEventListener('change', populateTables);
         }
         populateTables();
+
+        const activateButton = document.getElementById('activateAutoPlayBtn');
+        if (activateButton) {
+            activateButton.addEventListener('click', function() {
+                if (window.Tawk_API && typeof window.Tawk_API.maximize === 'function') {
+                    if (typeof Tawk_API.showWidget === 'function') {
+                        Tawk_API.showWidget();
+                    }
+                    Tawk_API.maximize();
+                } else {
+                    console.error("Tawk_API chưa sẵn sàng.");
+                    alert("Chức năng chat hiện không sẵn sàng. Vui lòng tải lại trang hoặc thử lại sau.");
+                }
+            });
+        }
     });
 
   </script>
 
   <script type="text/javascript">
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  var Tawk_LoadStart=new Date();
   (function(){
   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
   s1.async=true;
-  s1.src='https://embed.tawk.to/683dff1160b132190ec8d9e5/1isp2onbj';
+  s1.src='https://embed.tawk.to/683dff1160b132190ec8d9e5/1isp2onbj'; // Thay bằng mã Tawk.to của bạn
   s1.charset='UTF-8';
   s1.setAttribute('crossorigin','*');
   s0.parentNode.insertBefore(s1,s0);
