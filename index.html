@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HACK BACARAT MARK 4 - Nâng cấp V4 (Chọn Sảnh/Bàn)</title>
+  <title>HACK BACARAT MARK 4 - Nâng cấp V4 (Chọn Sảnh/Bàn + Tawk.to)</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -13,7 +13,7 @@
       font-family: 'Orbitron', monospace;
       background: black;
       color: #0f0;
-      overflow: hidden;
+      overflow: hidden; /* Quan trọng cho Matrix rain và có thể ảnh hưởng cách Tawk.to render nếu có xung đột hiếm gặp */
     }
 
     canvas#matrix {
@@ -34,7 +34,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 10;
+      z-index: 10; /* Đảm bảo intro trên Matrix rain nhưng dưới Tawk.to (Tawk.to tự quản z-index cao hơn) */
       padding: 20px;
       box-sizing: border-box;
     }
@@ -102,6 +102,8 @@
       text-align: center;
       border-bottom: 2px solid #0f0;
       box-shadow: 0 2px 10px rgba(0,255,0,0.3);
+      position: relative; /* Để đảm bảo z-index hoạt động đúng nếu cần */
+      z-index: 1; /* Trên Matrix rain, dưới Tawk.to */
     }
 
     header h1 {
@@ -125,6 +127,8 @@
     .video-container {
       text-align: center;
       padding: 20px 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .video-container video {
@@ -143,14 +147,18 @@
       border-radius: 8px;
       border: 1px solid #0a0;
       box-shadow: 0 0 10px rgba(0,255,0,0.2);
+      position: relative;
+      z-index: 1; /* Đảm bảo nội dung chính trên Matrix rain nhưng dưới Tawk.to */
+      /* Nếu nội dung chính cần scroll và Tawk.to bị che, cần xem xét lại overflow của body/html */
+      /* Hoặc đảm bảo Tawk.to được inject vào root của body và không bị ảnh hưởng bởi overflow cha */
     }
 
     /* --- Khu vực chọn sảnh/bàn --- */
     .selection-area {
       display: flex;
-      flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+      flex-wrap: wrap;
       justify-content: space-around;
-      align-items: flex-start; /* Căn chỉnh label và select */
+      align-items: flex-start;
       margin-bottom: 25px;
       padding: 15px;
       background-color: rgba(20,20,20,0.6);
@@ -159,12 +167,12 @@
       box-shadow: 0 0 8px rgba(0,255,0,0.3);
     }
 
-    .selection-area .form-group { /* Đổi tên div con để rõ ràng hơn */
+    .selection-area .form-group {
       display: flex;
       flex-direction: column;
-      align-items: flex-start; /* Căn label bên trái */
+      align-items: flex-start;
       margin: 5px 10px;
-      flex-basis: 200px; /* Độ rộng cơ bản cho mỗi group */
+      flex-basis: 200px;
       flex-grow: 1;
     }
 
@@ -180,10 +188,10 @@
       color: #0f0;
       border: 1px solid #0f0;
       border-radius: 5px;
-      padding: 10px 12px; /* Tăng padding */
+      padding: 10px 12px;
       font-family: 'Orbitron', monospace;
       font-size: 0.9em;
-      width: 100%; /* Select chiếm toàn bộ width của .form-group */
+      width: 100%;
       box-shadow: 0 0 5px rgba(0,255,0,0.3);
       cursor: pointer;
     }
@@ -195,7 +203,7 @@
     }
 
     .selection-area select option {
-      background-color: #000; /* Nền option tối hơn */
+      background-color: #000;
       color: #0f0;
       padding: 5px;
     }
@@ -207,7 +215,6 @@
       cursor: not-allowed;
       box-shadow: none;
     }
-    /* --- Kết thúc khu vực chọn sảnh/bàn --- */
 
 
     .betting-area {
@@ -341,8 +348,7 @@
     <p id="error"></p>
   </div>
 
-  <div id="app" class="hidden">
-    <header>
+  <div id="app" class="hidden"> <header>
       <h1>HACK BACARAT MARK 4 <img src="49253552-3667-47ce-8411-102835f4406e.png" alt="Logo"/></h1>
     </header>
 
@@ -366,7 +372,7 @@
           <label for="table-select">CHỌN BÀN:</label>
           <select id="table-select" disabled>
             <option value="">-- Chọn bàn --</option>
-            </select>
+          </select>
         </div>
       </div>
 
@@ -447,7 +453,6 @@
       const selectedLobby = document.getElementById('lobby-select').value;
       const selectedTable = document.getElementById('table-select').value;
 
-      // Kiểm tra xem sảnh và bàn đã được chọn chưa
       if (!selectedLobby) {
         alert("Vui lòng chọn một sảnh!");
         return;
@@ -456,7 +461,6 @@
         alert("Vui lòng chọn một bàn!");
         return;
       }
-      // Thông tin sảnh và bàn đã chọn, có thể sử dụng cho logic dự đoán sau này
       console.log("Sảnh đã chọn:", selectedLobby, "Bàn đã chọn:", selectedTable);
 
 
@@ -488,7 +492,6 @@
           speakResult('Banker');
         }
         
-        // Các cược phụ như Pair, nếu trúng thì active:
         if (Math.random() < 0.15) document.getElementById('playerPair').classList.add('active');
         if (Math.random() < 0.15) document.getElementById('bankerPair').classList.add('active');
         
@@ -498,7 +501,6 @@
       }, 3000);
     }
 
-    // --- LOGIC CHỌN SẢNH VÀ BÀN ---
     const lobbySelect = document.getElementById('lobby-select');
     const tableSelect = document.getElementById('table-select');
 
@@ -509,7 +511,7 @@
 
     function populateTables() {
       const selectedLobby = lobbySelect.value;
-      tableSelect.innerHTML = '<option value="">-- Chọn bàn --</option>'; // Xóa tùy chọn cũ, thêm mặc định
+      tableSelect.innerHTML = '<option value="">-- Chọn bàn --</option>'; 
 
       if (selectedLobby && tablesByLobby[selectedLobby]) {
         tablesByLobby[selectedLobby].forEach(table => {
@@ -518,15 +520,13 @@
           option.textContent = table;
           tableSelect.appendChild(option);
         });
-        tableSelect.disabled = false; // Kích hoạt chọn bàn
+        tableSelect.disabled = false;
       } else {
-        tableSelect.disabled = true; // Vô hiệu hóa nếu không có sảnh hợp lệ
+        tableSelect.disabled = true;
       }
     }
-    // --- KẾT THÚC LOGIC CHỌN SẢNH VÀ BÀN ---
 
 
-    // --- MATRIX RAIN BACKGROUND ---
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     let fontSize = 14;
@@ -568,19 +568,27 @@
             sound.load();
         }
         
-        // Khởi tạo cho Matrix Rain
         resizeCanvas();
         setInterval(draw, 33);
 
-        // Khởi tạo cho chọn sảnh/bàn
-        if(lobbySelect) { // Kiểm tra lobbySelect tồn tại
+        if(lobbySelect) {
             lobbySelect.addEventListener('change', populateTables);
         }
-        // Gọi populateTables lần đầu để đảm bảo trạng thái disabled của tableSelect là đúng
-        // (nếu không có sảnh nào được chọn sẵn)
         populateTables();
     });
 
   </script>
-</body>
+
+  <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/683dff1160b132190ec8d9e5/1isp2onbj';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  </body>
 </html>
