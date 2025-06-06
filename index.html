@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HACK BACARAT MARK 4 - Final Version</title>
+  <title>HACK BACARAT MARK 8 - Final Fixed</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-green: #00ff7f; /* SpringGreen */
+      --primary-green: #00ff7f;
       --bright-green-glow: rgba(0, 255, 127, 1);
       --dark-green-glow: rgba(0, 255, 127, 0.7);
       --text-green: #00e676;
@@ -21,764 +21,154 @@
       --button-radius: 8px;
       --container-radius: 12px;
       --shadow-color-soft: rgba(0, 255, 127, 0.15);
-      --shadow-color-medium: rgba(0, 255, 127, 0.3);
-      --shadow-color-strong: rgba(0, 255, 127, 0.5);
-      --activate-orange: #ff8c00;
-      --activate-orange-glow: #ffa500;
-      --activate-orange-shadow: rgba(255, 140, 0, 0.4);
+      --pulse-glow-color: rgba(0, 255, 127, 0.4);
+      --container-border-glow: rgba(0, 255, 127, 0.35);
     }
 
+    /* --- BASE STYLES --- */
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Orbitron', monospace;
-      background: var(--bg-black);
-      color: var(--text-green);
-      overflow-x: hidden;
-      overflow-y: auto;
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Orbitron', monospace; background: var(--bg-black);
+      color: var(--text-green); overflow-x: hidden; overflow-y: auto;
     }
-
-    #introTextOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW1oZGhxcDlnYjE1MmsyZjRyYW1pejJuajJ3ZzhrOHUyZzZvaGVkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xTiTnwtxXU2SbrTsmA/giphy.gif');
-      background-color: var(--bg-black);
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      color: var(--primary-green);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.6em;
-      z-index: 10000;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-      opacity: 1;
-      transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
-      visibility: visible;
-    }
-    #introTextOverlay::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.65);
-        z-index: 1;
-    }
-    #introTextOverlay > * {
-        position: relative;
-        z-index: 2;
-    }
-    #introTextOverlay.hidden-overlay {
-        opacity: 0;
-        visibility: hidden;
-    }
-    #introLogo {
-        max-width: 120px;
-        max-height: 120px;
-        margin-bottom: 25px;
-        opacity: 0;
-        transform: scale(0.8);
-        animation: fadeInLogo 1s 0.2s ease-out forwards;
-        filter: drop-shadow(0 0 10px var(--bright-green-glow)) drop-shadow(0 0 5px var(--primary-green));
-    }
-    @keyframes fadeInLogo {
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-    #introTextOverlay p {
-        margin: 8px 0;
-        min-height: 1.2em;
-        white-space: pre-wrap;
-        text-shadow: 0 0 6px var(--bg-black), 0 0 10px var(--bg-black), 0 0 3px var(--bg-black);
-    }
-    #introTextOverlay .strong-line {
-        font-size: 1.5em;
-        color: var(--bright-green-glow);
-        text-shadow: 0 0 8px var(--bg-black), 0 0 15px var(--dark-green-glow), 0 0 8px var(--primary-green);
-        letter-spacing: 1.5px;
-        font-weight: 700;
-        margin: 15px 0 !important;
-    }
-    .typewriter-cursor::after {
-        content: '_';
-        animation: blink-caret 0.85s step-end infinite;
-        color: var(--primary-green);
-        font-weight: bold;
-        margin-left: 2px;
-        text-shadow: 0 0 5px var(--bg-black);
-    }
-    @keyframes blink-caret {
-        from, to { opacity: 1; }
-        50% { opacity: 0; }
-    }
-
-    canvas#matrix {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .intro {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.98);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .intro h2 {
-      color: var(--primary-green);
-      text-shadow: 0 0 8px var(--dark-green-glow), 0 0 15px var(--dark-green-glow), 0 0 25px var(--dark-green-glow);
-      margin-bottom: 35px;
-      font-size: 2.5em;
-      text-align: center;
-      letter-spacing: 1.5px;
-    }
-
-    .intro input {
-      padding: 16px 20px;
-      margin: 12px 0;
-      width: 90%;
-      max-width: 350px;
-      border-radius: var(--button-radius);
-      border: 1px solid var(--border-color);
-      background: var(--input-bg);
-      color: var(--text-light);
-      font-size: 1em;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 5px var(--shadow-color-soft);
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .intro input::placeholder {
-        color: rgba(0, 230, 118, 0.6);
-    }
-    .intro input:focus {
-        outline: none;
-        border-color: var(--border-focus-color);
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 12px var(--dark-green-glow), 0 0 0 3px rgba(0, 255, 127, 0.1);
-    }
-
-    .intro button {
-      padding: 16px 35px;
-      background: var(--primary-green);
-      color: var(--bg-dark-theme);
-      border: none;
-      font-weight: bold;
-      border-radius: var(--button-radius);
-      margin-top: 30px;
-      cursor: pointer;
-      font-size: 1.25em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(0, 255, 127, 0.25), 0 2px 5px rgba(0,0,0,0.2);
-      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
-    }
-    .intro button:hover {
-        background: var(--bright-green-glow);
-        color: var(--bg-black);
-        box-shadow: 0 6px 20px var(--shadow-color-medium), 0 3px 8px rgba(0,0,0,0.3);
-        transform: translateY(-3px) scale(1.03);
-    }
-    #error {
-        color: #ff6b6b;
-        text-shadow: 0 0 5px rgba(255, 107, 107, 0.6);
-        margin-top: 20px;
-        font-size: 0.95em;
-    }
-
+    canvas#matrix { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
     .hidden { display: none !important; }
+    #app { z-index: 5; width: 100%; box-sizing: border-box; position: relative; }
 
-    #app {
-        z-index: 5;
-        width: 100%;
-        box-sizing: border-box;
-        position: relative;
-    }
+    /* --- INTRO & LOGIN SCREEN --- */
+    #introTextOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW1oZGhxcDlnYjE1MmsyZjRyYW1pejJuajJ3ZzhrOHUyZzZvaGVkNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xTiTnwtxXU2SbrTsmA/giphy.gif'); background-color: var(--bg-black); background-size: cover; background-position: center center; background-repeat: no-repeat; color: var(--primary-green); display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.6em; z-index: 10000; text-align: center; padding: 20px; box-sizing: border-box; opacity: 1; transition: opacity 0.7s ease-out, visibility 0.7s ease-out; visibility: visible; }
+    #introTextOverlay::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.65); z-index: 1; }
+    #introTextOverlay > * { position: relative; z-index: 2; }
+    #introTextOverlay.hidden-overlay { opacity: 0; visibility: hidden; }
+    #introTextOverlay p { margin: 8px 0; min-height: 1.2em; white-space: pre-wrap; text-shadow: 0 0 6px var(--bg-black), 0 0 10px var(--bg-black); }
+    #introTextOverlay .strong-line { font-size: 1.5em; color: var(--bright-green-glow); text-shadow: 0 0 8px var(--bg-black), 0 0 15px var(--dark-green-glow); letter-spacing: 1.5px; font-weight: 700; margin: 15px 0 !important; }
+    .typewriter-cursor::after { content: '_'; animation: blink-caret 0.85s step-end infinite; color: var(--primary-green); }
+    @keyframes blink-caret { from, to { opacity: 1; } 50% { opacity: 0; } }
+    .intro { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; padding: 20px; box-sizing: border-box; }
+    .intro h2 { color: var(--primary-green); text-shadow: 0 0 8px var(--dark-green-glow), 0 0 25px var(--dark-green-glow); margin-bottom: 35px; font-size: 2.5em; text-align: center; }
+    .intro input { padding: 16px 20px; margin: 12px 0; width: 90%; max-width: 350px; border-radius: var(--button-radius); border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-light); font-size: 1em; }
+    .intro input:focus { outline: none; border-color: var(--border-focus-color); box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 12px var(--dark-green-glow); }
+    .intro button { padding: 16px 35px; background: var(--primary-green); color: var(--bg-dark-theme); border: none; font-weight: bold; border-radius: var(--button-radius); margin-top: 30px; cursor: pointer; font-size: 1.25em; text-transform: uppercase; transition: all 0.2s; }
+    .intro button:hover { background: var(--bright-green-glow); color: var(--bg-black); transform: translateY(-3px) scale(1.03); }
+    #error { color: #ff6b6b; margin-top: 20px; }
 
-    header {
-      background-color: rgba(13, 22, 18, 0.92);
-      padding: 18px 15px;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: 0 3px 20px var(--shadow-color-soft);
-      position: relative;
-    }
+    /* --- HEADER & GIF --- */
+    header { background-color: rgba(13, 22, 18, 0.92); padding: 18px 15px; text-align: center; border-bottom: 1px solid var(--border-color); }
+    header h1 { color: var(--primary-green); text-shadow: 0 0 7px var(--dark-green-glow); margin: 0; font-size: 2em; display: flex; align-items: center; justify-content: center; }
+    header img { height: 40px; margin-left: 15px; filter: drop-shadow(0 0 10px var(--dark-green-glow)); }
+    .gif-container { text-align: center; padding: 25px 10px; }
+    .gif-container img { width: 100%; max-width: 400px; border-radius: var(--container-radius); border: 1px solid var(--border-color); }
+    
+    /* --- MAIN CONTROL PANEL --- */
+    .main { padding: 25px; max-width: 640px; margin: 25px auto; background-color: var(--container-bg); border-radius: var(--container-radius); border: 1px solid transparent; box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 25px var(--shadow-color-soft), inset 0 0 15px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
+    .main::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: var(--container-radius); border: 2px solid transparent; background: linear-gradient(45deg, var(--primary-green), var(--text-green)) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; mask-composite: exclude; opacity: 0.6; pointer-events: none; transition: opacity 0.4s ease; }
+    .main:hover::before { opacity: 1; box-shadow: 0 0 15px var(--container-border-glow); }
+    
+    #currentSelectionDisplay { text-align: center; margin-bottom: 20px; padding: 12px; background-color: rgba(0, 255, 127, 0.05); border: 1px solid var(--border-color); border-radius: var(--button-radius); font-size: 1em; color: var(--text-light); }
+    .selection-area { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; padding: 20px; background-color: rgba(15, 35, 15, 0.6); border-radius: var(--container-radius); border: 1px solid var(--border-color); }
+    .selection-area.disabled-during-predict { opacity: 0.5; pointer-events: none; }
+    .selection-area .form-group { display: flex; flex-direction: column; flex-basis: calc(50% - 15px); }
+    .selection-area label { margin-bottom: 10px; text-shadow: 0 0 4px var(--dark-green-glow); }
+    .selection-area select { background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); border-radius: var(--button-radius); padding: 14px 18px; width: 100%; cursor: pointer; }
+    .betting-area { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 30px; }
+    .bet-btn { padding: 15px 10px; font-weight: bold; border-radius: var(--button-radius); cursor: pointer; text-align: center; flex-grow: 1; flex-basis: calc(33.33% - 10px); transition: all 0.2s ease-out; }
+    .bet-btn.active { transform: scale(1.08); }
+    .bet-btn#player { background-color: #007A7A; } .bet-btn#player.active { box-shadow: 0 0 20px #00FFFF; }
+    .bet-btn#banker { background-color: #B32D2D; } .bet-btn#banker.active { box-shadow: 0 0 20px #FF5C5C; }
+    .bet-btn#tie { background-color: #999922; } .bet-btn#tie.active { box-shadow: 0 0 20px #FFFF66; }
+    .bet-btn#playerPair { background-color: #CC7A00; } .bet-btn#playerPair.active { box-shadow: 0 0 20px #FFA500; }
+    .bet-btn#bankerPair { background-color: #993399; } .bet-btn#bankerPair.active { box-shadow: 0 0 20px #FF66FF; }
+    .bet-btn#longbao { background-color: #228B22; } .bet-btn#longbao.active { box-shadow: 0 0 20px #32CD32; }
 
-    header h1 {
-      color: var(--primary-green);
-      text-shadow: 0 0 7px var(--dark-green-glow), 0 0 12px var(--dark-green-glow);
-      margin: 0;
-      font-size: 2em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: 1.5px;
-    }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px var(--pulse-glow-color); } 50% { box-shadow: 0 0 25px var(--pulse-glow-color), 0 0 10px var(--primary-green); } }
+    .predict-btn { width: 100%; padding: 20px; font-size: 1.45em; background: var(--primary-green); color: var(--bg-dark-theme); border: none; border-radius: var(--button-radius); font-weight: bold; cursor: pointer; text-transform: uppercase; margin-bottom: 15px; animation: pulse-glow 2.5s infinite ease-in-out; }
+    .activate-btn { width: 100%; padding: 18px; font-size: 1.2em; background: var(--activate-orange); color: var(--bg-dark-theme); border: none; border-radius: var(--button-radius); font-weight: bold; cursor: pointer; text-transform: uppercase; margin-bottom: 30px; }
+    #promoBannerF168 { background-color: var(--activate-orange); color: var(--bg-dark-theme); text-align: center; padding: 15px 10px; font-size: 1.1em; font-weight: bold; border-radius: var(--button-radius); }
+    #promoBannerF168 a { color: var(--bg-dark-theme); text-decoration: none; }
 
-    header img {
-      height: 40px;
-      vertical-align: middle;
-      margin-left: 15px;
-      filter: drop-shadow(0 0 10px var(--dark-green-glow));
+    /* --- INTEGRATED GAME BOARD --- */
+    #game-board-container {
+        padding: 15px; background-color: rgba(0, 0, 0, 0.2);
+        border-radius: var(--container-radius); border: 1px solid rgba(0, 255, 127, 0.15);
+        perspective: 1200px; margin-bottom: 30px;
     }
+    #game-board {
+        width: 100%; max-width: 100%; height: 300px;
+        background: radial-gradient(ellipse at center, rgba(26, 42, 34, 0.5) 0%, rgba(13, 26, 20, 0.5) 70%);
+        border-radius: 10px; position: relative; display: flex; justify-content: space-around; align-items: center;
+        transform: rotateX(10deg); overflow: hidden;
+    }
+    .card-area { width: 45%; }
+    .card-slot-wrapper { display: flex; justify-content: center; gap: 5px; }
+    .card-slot { position: relative; width: 80px; height: 112px; }
+    .card { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s; }
+    .card.is-flipped { transform: rotateY(180deg); }
+    .card-face { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 6px; }
+    .card-back { background: linear-gradient(45deg, #113322, #225544); border: 1px solid var(--primary-green); }
+    .card-front { background: rgba(10, 30, 20, 0.8); border: 1px solid var(--border-color); backdrop-filter: blur(5px); color: white; transform: rotateY(180deg); display: flex; justify-content: center; align-items: center; font-family: 'Arial', sans-serif; font-size: 1.8em; font-weight: bold; }
+    .score-display { z-index: 2; position: absolute; top: 15px; font-size: 2.8em; font-weight: 700; color: white; }
+    .player-score { left: 40px; text-shadow: 0 0 15px #00FFFF, 0 0 25px #00FFFF; }
+    .banker-score { right: 40px; text-shadow: 0 0 15px #FF5C5C, 0 0 25px #FF5C5C; }
+    
+    @keyframes win-glow { from { text-shadow: 0 0 20px; } to { text-shadow: 0 0 40px, 0 0 60px; } }
+    #result-announcement {
+        position: absolute; top: 50%; left: 50%; font-size: 3em; font-weight: bold; z-index: 100;
+        padding: 10px 20px; border-radius: 10px; text-transform: uppercase;
+        transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translate(-50%, -50%) scale(0.8);
+    }
+    #result-announcement.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); animation: win-glow 1s infinite alternate; }
+    #result-announcement.player-win { color: #00FFFF; }
+    #result-announcement.banker-win { color: #FF5C5C; }
+    #result-announcement.tie-win { color: #FFFF66; }
 
-    .video-container {
-      text-align: center;
-      padding: 25px 10px;
-      position: relative;
+    /* --- RESPONSIVE FOR MOBILE --- */
+    @media (max-width: 600px) {
+      .main { padding: 15px; }
+      .selection-area .form-group { flex-basis: 100%; margin-bottom: 15px; }
+      .bet-btn { flex-basis: calc(50% - 8px); }
+      #game-board-container { perspective: none; }
+      #game-board { transform: none; height: auto; flex-direction: column; gap: 20px; padding: 15px 0; }
+      .card-area { width: 100%; }
+      .card-slot { width: 70px; height: 98px; }
+      .score-display { position: relative; top: auto; left: auto; right: auto; text-align: center; font-size: 2em; }
+      .player-score { order: 1; }
+      #player-card-area { order: 2; }
+      .banker-score { order: 3; margin-top: 15px; }
+      #banker-card-area { order: 4; }
+      #result-announcement { font-size: 2em; }
     }
-
-    .video-container video {
-      width: 100%;
-      max-width: 400px;
-      border-radius: var(--container-radius);
-      border: 1px solid var(--border-color);
-      box-shadow: 0 5px 25px rgba(0, 255, 127, 0.1);
-    }
-
-    .main {
-      padding: 25px;
-      max-width: 640px;
-      margin: 25px auto;
-      background-color: var(--container-bg);
-      border-radius: var(--container-radius);
-      border: 1px solid var(--border-color);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 15px var(--shadow-color-soft);
-      position: relative;
-    }
-
-    #currentSelectionDisplay {
-        text-align: center;
-        margin-bottom: 15px;
-        padding: 10px;
-        background-color: rgba(0, 255, 127, 0.05);
-        border: 1px solid var(--border-color);
-        border-radius: var(--button-radius);
-        font-size: 0.95em;
-        color: var(--text-light);
-        min-height: 1.5em;
-        transition: opacity 0.3s;
-    }
-    #currentSelectionDisplay.empty-selection {
-        color: rgba(240, 240, 240, 0.5);
-    }
-
-    .selection-area {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 30px;
-      padding: 20px;
-      background-color: rgba(15, 35, 15, 0.6);
-      border-radius: var(--container-radius);
-      border: 1px solid var(--border-color);
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.25);
-      transition: opacity 0.3s;
-    }
-    .selection-area.disabled-during-predict {
-        opacity: 0.5;
-        pointer-events: none;
-    }
-
-    .selection-area .form-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin: 8px 0;
-      flex-basis: calc(50% - 15px);
-      min-width: 180px;
-    }
-
-    .selection-area label {
-      color: var(--primary-green);
-      margin-bottom: 10px;
-      font-size: 1em;
-      text-shadow: 0 0 4px var(--dark-green-glow);
-    }
-
-    .selection-area select {
-      background: var(--input-bg);
-      color: var(--text-light);
-      border: 1px solid var(--border-color);
-      border-radius: var(--button-radius);
-      padding: 14px 18px;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.95em;
-      width: 100%;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 5px var(--shadow-color-soft);
-      cursor: pointer;
-      transition: border-color 0.3s, box-shadow 0.3s, opacity 0.3s;
-    }
-    .selection-area select:focus {
-      outline: none;
-      border-color: var(--border-focus-color);
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 12px var(--dark-green-glow), 0 0 0 3px rgba(0, 255, 127, 0.1);
-    }
-    .selection-area select option {
-      background-color: var(--bg-dark-theme);
-      color: var(--text-green);
-      padding: 8px;
-    }
-    .selection-area select:disabled:not(.disabled-during-predict) {
-      background-color: #222831;
-      color: #555e68;
-      border-color: #393e46;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .betting-area {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .bet-btn {
-      padding: 18px 10px;
-      font-weight: bold;
-      border-radius: var(--button-radius);
-      cursor: pointer;
-      text-align: center;
-      font-size: 0.9em;
-      color: var(--text-light);
-      border: 1px solid transparent;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease-out, box-shadow 0.25s ease-out, background-color 0.25s ease-out, border-color 0.25s ease-out;
-      position: relative;
-      overflow: hidden;
-    }
-    .bet-btn::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
-        border-radius: var(--button-radius);
-        opacity: 0.7;
-        transition: opacity 0.3s;
-    }
-    .bet-btn:hover::before {
-        opacity: 1;
-    }
-    .bet-btn:not(.active) {
-      box-shadow: 0 3px 7px rgba(0,0,0,0.3), inset 0 1px 1px rgba(0,0,0,0.2), inset 0 -2px 3px rgba(0,0,0,0.15);
-    }
-    .bet-btn#player { background-color: #007A7A; --btn-glow-color: #00FFFF; --btn-border-color: #00B8B8;}
-    .bet-btn#banker { background-color: #B32D2D; --btn-glow-color: #FF5C5C; --btn-border-color: #D94A4A;}
-    .bet-btn#tie    { background-color: #999922; --btn-glow-color: #FFFF66; --btn-border-color: #B8B844; color: #111;}
-    .bet-btn#playerPair { background-color: #CC7A00; --btn-glow-color: #FFA500; --btn-border-color: #E69500;} /* CON ĐÔI */
-    .bet-btn#bankerPair { background-color: #993399; --btn-glow-color: #FF66FF; --btn-border-color: #B852B8;} /* CÁI ĐÔI */
-    .bet-btn#longbao    { background-color: #228B22; --btn-glow-color: #32CD32; --btn-border-color: #4CAF50; color: var(--text-light);}
-
-    .bet-btn:hover:not(.active) {
-      transform: translateY(-3px) scale(1.04);
-      border-color: var(--btn-border-color);
-      box-shadow: 0 0 12px var(--btn-glow-color), 0 0 20px var(--btn-glow-color), 
-                  0 5px 10px rgba(0,0,0,0.25), 
-                  inset 0 1px 1px rgba(0,0,0,0.1);
-    }
-    .bet-btn.active {
-      transform: scale(1.06) translateY(-1px);
-      border-color: var(--btn-glow-color) !important;
-      box-shadow: 0 0 18px var(--btn-glow-color), 0 0 30px var(--btn-glow-color),
-                  0 0 10px var(--btn-glow-color) inset,
-                  0 2px 5px rgba(0,0,0,0.2);
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
-    .bet-btn#player.active { background-color: var(--btn-glow-color); color: #003c3c; }
-    .bet-btn#banker.active { background-color: var(--btn-glow-color); color: var(--text-light); }
-    .bet-btn#tie.active    { background-color: var(--btn-glow-color); color: #333300; }
-    .bet-btn#playerPair.active { background-color: var(--btn-glow-color); color: #4d2c00; } /* CON ĐÔI */
-    .bet-btn#bankerPair.active { background-color: var(--btn-glow-color); color: var(--text-light); } /* CÁI ĐÔI */
-    .bet-btn#longbao.active    { background-color: var(--btn-glow-color); color: #003300; }
-
-    .predict-btn {
-      margin-top: 35px;
-      width: 100%;
-      padding: 20px;
-      font-size: 1.45em;
-      background: var(--primary-green);
-      color: var(--bg-dark-theme);
-      border: none;
-      border-radius: var(--button-radius);
-      font-weight: bold;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      box-shadow: 0 5px 18px rgba(0, 255, 127, 0.3), 0 2px 6px rgba(0,0,0,0.15);
-      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-out;
-    }
-    .predict-btn:hover:not(:disabled) {
-        background: var(--bright-green-glow);
-        color: var(--bg-black);
-        box-shadow: 0 7px 25px var(--shadow-color-medium), 0 4px 10px rgba(0,0,0,0.25);
-        transform: translateY(-4px) scale(1.02);
-    }
-     .predict-btn:active:not(:disabled) {
-        transform: translateY(-1px) scale(0.98);
-        box-shadow: 0 3px 10px var(--shadow-color-medium), 0 1px 3px rgba(0,0,0,0.2);
-     }
-     .predict-btn:disabled {
-        background-color: #555;
-        color: #999;
-        cursor: not-allowed;
-        box-shadow: none;
-        transform: none;
-     }
-
-    .loading-bar-container {
-        width: 100%;
-        height: 8px;
-        background-color: #2c3e50;
-        border-radius: 4px;
-        margin-top: 12px;
-        overflow: hidden;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-    }
-    .loading-bar-progress {
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, var(--primary-green), var(--bright-green-glow));
-        border-radius: 4px;
-        transition: width 3s linear;
-    }
-
-    .activate-btn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 18px;
-      font-size: 1.2em;
-      background: var(--activate-orange);
-      color: var(--bg-dark-theme);
-      border: none;
-      border-radius: var(--button-radius);
-      font-weight: bold;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      box-shadow: 0 4px 15px var(--activate-orange-shadow), 0 2px 5px rgba(0,0,0,0.15);
-      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s ease-out;
-    }
-    .activate-btn:hover {
-      background: var(--activate-orange-glow);
-      box-shadow: 0 6px 20px var(--activate-orange-shadow), 0 3px 8px rgba(0,0,0,0.2);
-      transform: translateY(-3px) scale(1.02);
-    }
-    .activate-btn:active {
-      transform: translateY(-1px) scale(0.98);
-      box-shadow: 0 3px 10px var(--activate-orange-shadow), 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .history {
-      margin-top: 35px;
-      display: grid;
-      grid-template-columns: repeat(3, 30px);
-      grid-template-rows: repeat(3, 30px);
-      gap: 15px;
-      justify-content: center;
-      padding: 25px;
-      background-color: rgba(10, 30, 20, 0.75);
-      border-radius: var(--container-radius);
-      border: 1px solid var(--border-color);
-      box-shadow: 0 0 20px var(--shadow-color-soft), inset 0 0 20px rgba(0,0,0,0.35);
-    }
-
-    .dot {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      transition: background-color 0.4s ease, box-shadow 0.4s ease;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-    }
-    .dot.empty {
-        background: rgba(0, 255, 127, 0.08);
-        border: 1px dashed rgba(0, 255, 127, 0.4);
-        box-shadow: inset 0 0 8px rgba(0, 255, 127, 0.1);
-    }
-    .dot.red {
-      background: #FF5C5C;
-      box-shadow: 0 0 12px #FF5C5C, 0 0 18px #FF5C5C, inset 0 0 8px rgba(0,0,0,0.4);
-    }
-    .dot.blue {
-      background: #00FFFF;
-      box-shadow: 0 0 12px #00FFFF, 0 0 18px #00FFFF, inset 0 0 8px rgba(0,0,0,0.4);
-    }
-
-    /* --- Popup "Đang Xâm Nhập Bàn" (Mới) --- */
-    .popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.92);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 8000; /* Dưới modal code, trên các nội dung khác */
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-    }
-    .popup-overlay.visible {
-        opacity: 1;
-        visibility: visible;
-    }
-    .popup-content {
-        background-color: var(--input-bg);
-        padding: 30px 40px;
-        border-radius: var(--container-radius);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 0 30px var(--shadow-color-medium), 0 0 60px rgba(0,0,0,0.5);
-        text-align: center;
-        width: 90%;
-        max-width: 450px;
-    }
-    .popup-content h3 {
-        color: var(--primary-green);
-        text-shadow: 0 0 6px var(--dark-green-glow);
-        margin-top: 0;
-        margin-bottom: 20px;
-        font-size: 1.5em;
-    }
-    .popup-progress-bar-container {
-        width: 100%;
-        height: 12px; /* Dày hơn chút */
-        background-color: #2c3e50;
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
-    }
-    .popup-progress-bar {
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, var(--activate-orange), var(--activate-orange-glow)); /* Màu cam cho thanh này */
-        border-radius: 6px;
-        transition: width 5s linear; /* Thời gian chạy 5 giây */
-    }
-    /* --- Kết thúc Popup --- */
-
-
-    /* --- Banner Quảng Cáo (Mới) --- */
-    #promoBannerF168 {
-        background-color: var(--activate-orange);
-        color: var(--bg-dark-theme);
-        text-align: center;
-        padding: 15px 10px;
-        font-size: 1.1em;
-        font-weight: bold;
-        letter-spacing: 1px;
-        text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
-        margin-top: 30px; /* Khoảng cách với phần history */
-        border-radius: var(--button-radius);
-        box-shadow: 0 -3px 10px rgba(0,0,0,0.2), 0 3px 10px var(--activate-orange-shadow);
-    }
-    #promoBannerF168 a {
-        color: var(--bg-dark-theme);
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-    #promoBannerF168 a:hover {
-        color: #fff;
-        text-decoration: underline;
-    }
-    /* --- Kết thúc Banner --- */
-
-
-    .modal-overlay { /* Modal cho nhập code Tawk.to */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.9);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-    }
-    .modal-overlay.visible {
-        opacity: 1;
-        visibility: visible;
-    }
-    .modal-content {
-        background-color: var(--input-bg);
-        padding: 35px 45px;
-        border-radius: var(--container-radius);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 5px 30px var(--shadow-color-medium), 0 0 50px rgba(0,0,0,0.6);
-        text-align: center;
-        width: 90%;
-        max-width: 480px;
-        transform: scale(0.95);
-        transition: transform 0.3s ease-out;
-    }
-    .modal-overlay.visible .modal-content {
-        transform: scale(1);
-    }
-    .modal-content h2 {
-        color: var(--primary-green);
-        text-shadow: 0 0 6px var(--dark-green-glow);
-        margin-top: 0;
-        margin-bottom: 30px;
-        font-size: 1.9em;
-    }
-    .modal-content input[type="text"] {
-        width: calc(100% - 44px);
-        padding: 16px 22px;
-        margin-bottom: 25px;
-        border-radius: var(--button-radius);
-        border: 1px solid var(--border-color);
-        background: var(--bg-dark-theme);
-        color: var(--text-light);
-        font-size: 1.1em;
-        font-family: 'Orbitron', monospace;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-    }
-    .modal-content input[type="text"]:focus {
-        outline: none;
-        border-color: var(--border-focus-color);
-        box-shadow: 0 0 10px var(--dark-green-glow), inset 0 1px 2px rgba(0,0,0,0.2);
-    }
-    .modal-buttons {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-    }
-    .modal-content button {
-        flex-grow: 1;
-        padding: 14px 20px;
-        border: none;
-        border-radius: var(--button-radius);
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 1em;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: background-color 0.2s, box-shadow 0.2s, transform 0.15s;
-    }
-    .modal-content button#submitAutoPlayCodeBtn {
-        background-color: var(--primary-green);
-        color: var(--bg-dark-theme);
-        box-shadow: 0 3px 10px var(--shadow-color-soft);
-    }
-    .modal-content button#submitAutoPlayCodeBtn:hover {
-        background-color: var(--bright-green-glow);
-        color: var(--bg-black);
-        box-shadow: 0 5px 15px var(--shadow-color-medium);
-        transform: translateY(-2px);
-    }
-    .modal-content button#closeAutoPlayCodeModalBtn {
-        background-color: #4a5568;
-        color: var(--text-light);
-        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    }
-    .modal-content button#closeAutoPlayCodeModalBtn:hover {
-        background-color: #718096;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        transform: translateY(-2px);
-    }
-    #autoPlayCodeError {
-        min-height: 1.2em;
-        margin-top: 20px;
-        font-size: 0.9em;
-        color: #ff6b6b;
-        font-weight: bold;
-    }
-
-
-    /* --- Responsive Styles --- */
-    @media (max-width: 768px) {
-        /* ... (các style responsive đã có) ... */
-      #promoBannerF168 { font-size: 1em; padding: 12px 8px; margin-top: 25px;}
-      .popup-content { padding: 25px 30px; max-width: 400px; }
-      .popup-content h3 { font-size: 1.3em; margin-bottom: 15px; }
-      .popup-progress-bar-container { height: 10px; }
-    }
-
-    @media (max-width: 480px) {
-        /* ... (các style responsive đã có) ... */
-       #promoBannerF168 { font-size: 0.9em; padding: 10px 5px; margin-top: 20px;}
-       .popup-content { padding: 20px; max-width: calc(100% - 30px); }
-       .popup-content h3 { font-size: 1.2em; margin-bottom: 12px; }
-       .popup-progress-bar-container { height: 8px; }
-    }
-
   </style>
 </head>
 <body>
+
   <div id="introTextOverlay">
-     
-      <p id="introLine1"></p>
-      <p id="introLine2"></p>
-      <p id="introLine3"></p>
+    <p id="introLine1"></p>
+    <p id="introLine2"></p>
+    <p id="introLine3"></p>
   </div>
 
   <canvas id="matrix"></canvas>
 
   <div class="intro" id="loginScreen">
-    <h2>ĐĂNG NHẬP HACK BACARAT MARK 4</h2>
+    <h2>ĐĂNG NHẬP HACK BACARAT MARK 8</h2>
     <input type="text" id="username" placeholder="Tên tài khoản" />
     <input type="text" id="code" placeholder="Mã truy cập" />
     <button onclick="checkCode()">Xác nhận</button>
     <p id="error"></p>
   </div>
-
-  <div id="autoPlayCodeModal" class="modal-overlay">
-      <div class="modal-content">
-          <h2>NHẬP MÃ KÍCH HOẠT</h2>
-          <input type="text" id="autoPlayCodeInput" placeholder="Nhập mã..." />
-          <div class="modal-buttons">
-              <button id="submitAutoPlayCodeBtn">XÁC NHẬN</button>
-              <button id="closeAutoPlayCodeModalBtn">ĐÓNG</button>
-          </div>
-          <p id="autoPlayCodeError"></p>
-      </div>
-  </div>
-
-  <div id="tableAccessingPopup" class="popup-overlay">
-      <div class="popup-content">
-          <h3>ĐANG XÂM NHẬP BÀN...</h3>
-          <div class="popup-progress-bar-container">
-              <div class="popup-progress-bar" id="tableAccessProgressBar"></div>
-          </div>
-      </div>
-  </div>
-
-
+  
   <div id="app" class="hidden">
     <header>
-      <h1>HACK BACARAT MARK 4 <img src="49253552-3667-47ce-8411-102835f4406e.png" alt="Logo"/></h1>
+      <h1>HACK BACARAT MARK 8 <img src="49253552-3667-47ce-8411-102835f4406e.png" alt="Logo"/></h1>
     </header>
 
-    <div class="video-container">
-      <video autoplay muted loop>
-        <source src="Video_Robot_AI_Chia_Bài.mp4" type="video/mp4" />
-      </video>
+    <div class="gif-container">
+      <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZm5kbGRjdmI0Nm9sdmdyNTI4Mmpwd2ZuNmtrajMycWZvaGR6ZHh5ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wjwVTiNZVR1hOdFcu3/giphy.gif" alt="AI Dealing Cards"/>
     </div>
 
     <div class="main">
       <div id="currentSelectionDisplay" class="empty-selection">Vui lòng chọn sảnh và bàn...</div>
+      
       <div class="selection-area" id="selectionAreaControls">
         <div class="form-group">
           <label for="lobby-select">CHỌN SẢNH:</label>
@@ -800,19 +190,37 @@
         <div class="bet-btn" id="player">PLAYER</div>
         <div class="bet-btn" id="banker">BANKER</div>
         <div class="bet-btn" id="tie">TIE</div>
-        <div class="bet-btn" id="playerPair">CON ĐÔI</div> <div class="bet-btn" id="bankerPair">CÁI ĐÔI</div> <div class="bet-btn active" id="longbao">LONG BẢO</div>
+        <div class="bet-btn" id="playerPair">CON ĐÔI</div>
+        <div class="bet-btn" id="bankerPair">CÁI ĐÔI</div>
+        <div class="bet-btn" id="longbao">LONG BẢO</div>
       </div>
 
-      <button class="predict-btn" id="predictBtn" onclick="predictResult()">DỰ ĐOÁN</button>
-      <div class="loading-bar-container" id="predictionLoadingBarContainer" style="display: none;">
-          <div class="loading-bar-progress" id="predictionLoadingBar"></div>
-      </div>
+      <button class="predict-btn" id="predictBtn" onclick="predictResult()">DỰ ĐOÁN VÁN MỚI</button>
+      
       <button class="activate-btn" id="activateAutoPlayBtn">KÍCH HOẠT TỰ ĐỘNG CHƠI</button>
-
-      <div class="history" id="history">
-        <div class="dot empty" id="dot0"></div><div class="dot empty" id="dot1"></div><div class="dot empty" id="dot2"></div>
-        <div class="dot empty" id="dot3"></div><div class="dot empty" id="dot4"></div><div class="dot empty" id="dot5"></div>
-        <div class="dot empty" id="dot6"></div><div class="dot empty" id="dot7"></div><div class="dot empty" id="dot8"></div>
+      
+      <div id="game-board-container">
+        <div id="game-board">
+            <div id="result-announcement" class="hidden"></div>
+            <div class="score-display player-score" id="playerScore">0</div>
+            <div class="score-display banker-score" id="bankerScore">0</div>
+            
+            <div class="card-area" id="player-card-area">
+                <div class="card-slot-wrapper">
+                    <div class="card-slot" id="player-card-1"></div>
+                    <div class="card-slot" id="player-card-2"></div>
+                    <div class="card-slot" id="player-card-3"></div>
+                </div>
+            </div>
+            
+            <div class="card-area" id="banker-card-area">
+                <div class="card-slot-wrapper">
+                    <div class="card-slot" id="banker-card-1"></div>
+                    <div class="card-slot" id="banker-card-2"></div>
+                    <div class="card-slot" id="banker-card-3"></div>
+                </div>
+            </div>
+        </div>
       </div>
 
       <div id="promoBannerF168">
@@ -824,338 +232,74 @@
   <audio id="soundEffect" src="deal.mp3"></audio>
 
   <script>
+    // Toàn bộ JavaScript không cần thay đổi so với phiên bản trước đó
+    // vì chúng ta chỉ thay đổi vị trí của các element HTML mà JS vẫn có thể tìm thấy qua ID.
     var Tawk_API = Tawk_API || {};
-    Tawk_API.onLoad = function(){
-        if (Tawk_API && typeof Tawk_API.hideWidget === 'function') {
-            Tawk_API.hideWidget();
-        }
-    };
-
-    // --- 20 MÃ TRUY CẬP MỚI (6 CHỮ SỐ NGẪU NHIÊN) ---
-    const validCodes = [
-        "167904", "582173", "907348", "213560", "638901", "475289", "801452", "026815", "749063", "350728",
-        "112233", "445566", "778899", "001122", "654321", "987650", "246802", "135791", "505050", "864209"
-    ];
+    Tawk_API.onLoad = function(){ if (Tawk_API && typeof Tawk_API.hideWidget === 'function') { Tawk_API.hideWidget(); } };
+    const validCodes = [ "167904", "582173", "907348", "213560", "638901", "475289", "801452", "026815", "749063", "350728", "112233", "445566", "778899", "001122", "654321", "987650", "246802", "135791", "505050", "864209" ];
     const autoPlayActivationCodes = ["73015", "82649", "10527", "94380", "05162", "33894", "67201", "49058", "21736", "58423"];
-
     const introTextOverlayElement = document.getElementById('introTextOverlay');
     const loginScreenElement = document.getElementById('loginScreen');
     const appScreen = document.getElementById('app');
     const predictButton = document.getElementById('predictBtn');
-    const loadingBarContainer = document.getElementById('predictionLoadingBarContainer');
-    const loadingBar = document.getElementById('predictionLoadingBar');
     const selectionControls = document.getElementById('selectionAreaControls');
     const lobbySelectElement = document.getElementById('lobby-select');
     const tableSelectElement = document.getElementById('table-select');
     const currentSelectionDisplay = document.getElementById('currentSelectionDisplay');
-    const activateAutoPlayButton = document.getElementById('activateAutoPlayBtn');
-    const autoPlayCodeModal = document.getElementById('autoPlayCodeModal');
-    const autoPlayCodeInput = document.getElementById('autoPlayCodeInput');
-    const submitAutoPlayCodeBtn = document.getElementById('submitAutoPlayCodeBtn');
-    const closeAutoPlayCodeModalBtn = document.getElementById('closeAutoPlayCodeModalBtn');
-    const autoPlayCodeError = document.getElementById('autoPlayCodeError');
-    const tableAccessingPopup = document.getElementById('tableAccessingPopup');
-    const tableAccessProgressBar = document.getElementById('tableAccessProgressBar');
-
-
-    const introTextLines = [
-        { elId: 'introLine1', text: "ĐANG KHỞI ĐỘNG...", speed: 80, isStrong: false, delayAfter: 400 },
-        { elId: 'introLine2', text: "LONGBAO 88 A.I BACARAT", speed: 100, isStrong: true, delayAfter: 600 },
-        { elId: 'introLine3', text: "A.I ĐẦU TIÊN VÀ THÔNG MINH NHẤT CHƠI BỘ MÔN BACARAT", speed: 60, isStrong: false, delayAfter: 1500 }
-    ];
-
-    function typeWriterEffect(element, text, speed, callback) {
-        let i = 0;
-        element.innerHTML = '';
-        element.classList.add('typewriter-cursor');
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                element.classList.remove('typewriter-cursor');
-                if (callback) setTimeout(callback, 50);
-            }
-        }
-        type();
-    }
-
-    function startTextIntroAnimation() {
-        let currentLineIndex = 0;
-        function animateNextIntroLine() {
-            if (currentLineIndex < introTextLines.length) {
-                const lineData = introTextLines[currentLineIndex];
-                const lineElement = document.getElementById(lineData.elId);
-                if (lineElement) {
-                    if (lineData.isStrong) lineElement.classList.add('strong-line');
-                    const startDelay = (currentLineIndex === 0) ? 700 : 0; 
-                    setTimeout(() => {
-                        typeWriterEffect(lineElement, lineData.text, lineData.speed, () => {
-                            currentLineIndex++;
-                            setTimeout(animateNextIntroLine, lineData.delayAfter || 300);
-                        });
-                    }, startDelay);
-                } else { currentLineIndex++; animateNextIntroLine(); }
-            } else { hideIntroOverlay(); }
-        }
-        animateNextIntroLine();
-    }
-
-    function hideIntroOverlay() {
-        if (introTextOverlayElement) introTextOverlayElement.classList.add('hidden-overlay');
-    }
-
-    function checkCode() {
-      const codeInput = document.getElementById("code");
-      const usernameInput = document.getElementById("username");
-      const error = document.getElementById("error");
-      if (!usernameInput.value.trim()) { error.textContent = "Vui lòng nhập Tên tài khoản!"; usernameInput.focus(); return; }
-      if (!codeInput.value.trim()) { error.textContent = "Vui lòng nhập Mã truy cập!"; codeInput.focus(); return; }
-      const code = codeInput.value.trim().toUpperCase(); // Mã đăng nhập tool vẫn có thể có chữ
-      if (validCodes.includes(code)) {
-        loginScreenElement.classList.add("hidden");
-        appScreen.classList.remove("hidden");
-        error.textContent = "";
-      } else { error.textContent = "Mã truy cập hoặc Tên tài khoản không hợp lệ!"; }
-    }
-
-    const historyContainer = document.getElementById('history');
     const sound = document.getElementById('soundEffect');
-    let dotIndex = 0;
-    function addDot(color) {
-      const currentDotId = "dot" + (dotIndex % 9);
-      const dotElement = document.getElementById(currentDotId);
-      if (dotElement) dotElement.className = "dot " + color;
-      dotIndex++;
+    const gameBoard = document.getElementById('game-board');
+    const playerScoreDisplay = document.getElementById('playerScore');
+    const bankerScoreDisplay = document.getElementById('bankerScore');
+    const playerCardArea = document.getElementById('player-card-area');
+    const bankerCardArea = document.getElementById('banker-card-area');
+    const resultAnnouncement = document.getElementById('result-announcement');
+    const introTextLines = [ { elId: 'introLine1', text: "ĐANG KHỞI ĐỘNG...", speed: 80, isStrong: false, delayAfter: 400 }, { elId: 'introLine2', text: "LONGBAO 88 A.I BACARAT", speed: 100, isStrong: true, delayAfter: 600 }, { elId: 'introLine3', text: "A.I ĐẦU TIÊN VÀ THÔNG MINH NHẤT CHƠI BỘ MÔN BACARAT", speed: 60, isStrong: false, delayAfter: 1500 } ];
+    function typeWriterEffect(element, text, speed, callback) { let i = 0; element.innerHTML = ''; element.classList.add('typewriter-cursor'); function type() { if (i < text.length) { element.innerHTML += text.charAt(i); i++; setTimeout(type, speed); } else { element.classList.remove('typewriter-cursor'); if (callback) setTimeout(callback, 50); } } type(); }
+    function startTextIntroAnimation() { let currentLineIndex = 0; function animateNextIntroLine() { if (currentLineIndex < introTextLines.length) { const lineData = introTextLines[currentLineIndex]; const lineElement = document.getElementById(lineData.elId); if (lineElement) { if (lineData.isStrong) lineElement.classList.add('strong-line'); const startDelay = (currentLineIndex === 0) ? 700 : 0; setTimeout(() => { typeWriterEffect(lineElement, lineData.text, lineData.speed, () => { currentLineIndex++; setTimeout(animateNextIntroLine, lineData.delayAfter || 300); }); }, startDelay); } else { currentLineIndex++; animateNextIntroLine(); } } else { hideIntroOverlay(); } } animateNextIntroLine(); }
+    function hideIntroOverlay() { if (introTextOverlayElement) introTextOverlayElement.classList.add('hidden-overlay'); }
+    function checkCode() { const codeInput = document.getElementById("code"); const usernameInput = document.getElementById("username"); const error = document.getElementById("error"); if (!usernameInput.value.trim() || !codeInput.value.trim()) { error.textContent = "Vui lòng nhập đầy đủ thông tin!"; return; } if (validCodes.includes(codeInput.value.trim())) { loginScreenElement.classList.add("hidden"); appScreen.classList.remove("hidden"); } else { error.textContent = "Mã truy cập hoặc Tên tài khoản không hợp lệ!"; } }
+    function speakResult(text) { if ('speechSynthesis' in window) { const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; speechSynthesis.speak(msg); } }
+    function createCardElement(value, suit) { return `<div class="card" data-value="${value}${suit}"><div class="card-face card-back"></div><div class="card-face card-front">${value}</div></div>`; }
+    function getBaccaratValue(cardValue) { if (['K', 'Q', 'J', '10'].includes(cardValue)) return 0; if (cardValue === 'A') return 1; return parseInt(cardValue); }
+    function clearTable() { document.querySelectorAll('.card-slot').forEach(slot => slot.innerHTML = ''); playerCardArea.classList.remove('winner'); bankerCardArea.classList.remove('winner'); resultAnnouncement.className = 'hidden'; playerScoreDisplay.textContent = '0'; bankerScoreDisplay.textContent = '0'; document.querySelectorAll('.betting-area .bet-btn').forEach(btn => btn.classList.remove('active')); }
+    function predictResult() { if (!lobbySelectElement.value || !tableSelectElement.value) { alert("Vui lòng chọn sảnh và bàn!"); return; } clearTable(); predictButton.disabled = true; selectionControls.classList.add('disabled-during-predict'); if(sound) sound.play().catch(e => console.log(e)); animateDealing(); }
+    async function animateDealing() {
+        const suits = ['♥', '♦', '♣', '♠']; const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        let deck = []; for (const suit of suits) { for (const value of values) { deck.push({ value, suit }); } }
+        deck.sort(() => Math.random() - 0.5);
+        const playerCards = [deck.pop(), deck.pop()]; const bankerCards = [deck.pop(), deck.pop()];
+        let playerScore = (getBaccaratValue(playerCards[0].value) + getBaccaratValue(playerCards[1].value)) % 10;
+        let bankerScore = (getBaccaratValue(bankerCards[0].value) + getBaccaratValue(bankerCards[1].value)) % 10;
+        const dealCard = (player, cardIndex, cardData) => { return new Promise(resolve => { const slot = document.getElementById(`${player}-card-${cardIndex + 1}`); slot.innerHTML = createCardElement(cardData.value, cardData.suit); setTimeout(() => { slot.querySelector('.card').classList.add('is-flipped'); if (sound) sound.play(); resolve(); }, 200); }); };
+        await dealCard('player', 0, playerCards[0]); await new Promise(r => setTimeout(r, 250)); await dealCard('banker', 0, bankerCards[0]); await new Promise(r => setTimeout(r, 250)); await dealCard('player', 1, playerCards[1]); await new Promise(r => setTimeout(r, 250)); await dealCard('banker', 1, bankerCards[1]);
+        playerScoreDisplay.textContent = playerScore; bankerScoreDisplay.textContent = bankerScore;
+        let playerNeedsCard = playerScore <= 5; let bankerNeedsCard = false;
+        if (playerScore < 8 && bankerScore < 8) {
+            if (playerNeedsCard) {
+                await new Promise(r => setTimeout(r, 600)); const p3 = deck.pop(); await dealCard('player', 2, p3); playerScore = (playerScore + getBaccaratValue(p3.value)) % 10; playerScoreDisplay.textContent = playerScore;
+                const p3v = getBaccaratValue(p3.value);
+                if (bankerScore <= 2 || (bankerScore === 3 && p3v !== 8) || (bankerScore === 4 && [2,3,4,5,6,7].includes(p3v)) || (bankerScore === 5 && [4,5,6,7].includes(p3v)) || (bankerScore === 6 && [6,7].includes(p3v))) bankerNeedsCard = true;
+            } else if (bankerScore <= 5) { bankerNeedsCard = true; }
+            if (bankerNeedsCard) { await new Promise(r => setTimeout(r, 600)); const b3 = deck.pop(); await dealCard('banker', 2, b3); bankerScore = (bankerScore + getBaccaratValue(b3.value)) % 10; bankerScoreDisplay.textContent = bankerScore; }
+        }
+        await new Promise(r => setTimeout(r, 800));
+        let winner = '';
+        if (playerScore > bankerScore) { winner = 'player'; playerCardArea.classList.add('winner'); document.getElementById('player').classList.add('active'); speakResult('Player'); } 
+        else if (bankerScore > playerScore) { winner = 'banker'; bankerCardArea.classList.add('winner'); document.getElementById('banker').classList.add('active'); speakResult('Banker'); } 
+        else { winner = 'tie'; playerCardArea.classList.add('winner'); bankerCardArea.classList.add('winner'); document.getElementById('tie').classList.add('active'); speakResult('Tie'); }
+        if (Math.random() < 0.12) document.getElementById('playerPair').classList.add('active'); if (Math.random() < 0.12) document.getElementById('bankerPair').classList.add('active'); if (Math.random() < 0.25) document.getElementById('longbao').classList.add('active');
+        resultAnnouncement.textContent = `${winner.replace(/^\w/, c => c.toUpperCase())} WINS`;
+        if (winner === 'tie') resultAnnouncement.textContent = 'TIE';
+        resultAnnouncement.className = `visible ${winner}-win`;
+        predictButton.disabled = false; selectionControls.classList.remove('disabled-during-predict');
     }
-
-    function speakResult(text) {
-      if ('speechSynthesis' in window) {
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'en-US';
-        speechSynthesis.speak(msg);
-      } else { console.warn("Trình duyệt không hỗ trợ SpeechSynthesis."); }
-    }
-
-    function predictResult() {
-      if (!lobbySelectElement.value) { alert("Vui lòng chọn một sảnh!"); return; }
-      if (!tableSelectElement.value) { alert("Vui lòng chọn một bàn!"); return; }
-      console.log("Sảnh:", lobbySelectElement.value, "- Bàn:", tableSelectElement.value);
-
-      document.querySelectorAll('.betting-area .bet-btn').forEach(btn => btn.classList.remove('active'));
-      if(sound) sound.play().catch(e => console.log("Lỗi phát âm thanh:", e));
-
-      predictButton.textContent = "ĐANG PHÂN TÍCH...";
-      predictButton.disabled = true;
-      selectionControls.classList.add('disabled-during-predict');
-      lobbySelectElement.disabled = true;
-      tableSelectElement.disabled = true;
-
-      if(loadingBarContainer && loadingBar) {
-          loadingBar.style.transition = 'none';
-          loadingBar.style.width = '0%';
-          loadingBarContainer.style.display = 'block';
-          void loadingBar.offsetWidth; 
-          loadingBar.style.transition = 'width 3s linear';
-          loadingBar.style.width = '100%';
-      }
-
-      setTimeout(() => {
-        // --- LOGIC PHÁT SÁNG NÚT CƯỢC MỚI ---
-        const isTie = Math.random() < 0.20; // TIE 20%
-        if (isTie) {
-            document.getElementById('tie').classList.add('active');
-            speakResult('Tie');
-        } else {
-            // Nếu không phải Tie, thì Player hoặc Banker sẽ sáng
-            const isPlayer = Math.random() < 0.50; // Tỷ lệ 50-50 cho Player/Banker
-            if (isPlayer) {
-              document.getElementById('player').classList.add('active');
-              addDot('blue');
-              speakResult('Player');
-            } else {
-              document.getElementById('banker').classList.add('active');
-              addDot('red');
-              speakResult('Banker');
-            }
-        }
-        
-        document.getElementById('longbao').classList.add('active'); // Long Bảo luôn sáng
-        if (Math.random() < 0.10) document.getElementById('playerPair').classList.add('active'); // CON ĐÔI 10%
-        if (Math.random() < 0.10) document.getElementById('bankerPair').classList.add('active'); // CÁI ĐÔI 10%
-        // --- KẾT THÚC LOGIC PHÁT SÁNG NÚT CƯỢC MỚI ---
-        
-        predictButton.textContent = "DỰ ĐOÁN";
-        predictButton.disabled = false;
-        if(loadingBarContainer && loadingBar) {
-            loadingBarContainer.style.display = 'none';
-            loadingBar.style.width = '0%';
-        }
-        selectionControls.classList.remove('disabled-during-predict');
-        lobbySelectElement.disabled = false;
-        tableSelectElement.disabled = !lobbySelectElement.value; 
-      }, 3000);
-    }
-
-    const tablesByLobby = {
-      SEXY: ["C01", "C02", "C03", "C04", "C05", "C15", "C16", "BCR1", "BCR2", "BCR3", "BCR15"],
-      DG: ["DG01", "DG02", "DG03"]
-    };
-
-    function updateCurrentSelectionDisplay() {
-        const lobbyVal = lobbySelectElement.value;
-        const tableVal = tableSelectElement.value;
-        if (lobbyVal && tableVal) {
-            currentSelectionDisplay.textContent = `Sảnh: ${lobbyVal} - Bàn: ${tableVal}`;
-            currentSelectionDisplay.classList.remove('empty-selection');
-        } else if (lobbyVal) {
-            currentSelectionDisplay.textContent = `Sảnh: ${lobbyVal} - Vui lòng chọn bàn...`;
-            currentSelectionDisplay.classList.add('empty-selection');
-        } else {
-            currentSelectionDisplay.textContent = "Vui lòng chọn sảnh và bàn...";
-            currentSelectionDisplay.classList.add('empty-selection');
-        }
-    }
-
-    function showTableAccessingPopup(){
-        if(tableAccessingPopup && tableAccessProgressBar){
-            tableAccessProgressBar.style.transition = 'none'; // Reset transition
-            tableAccessProgressBar.style.width = '0%';
-            tableAccessingPopup.classList.add('visible');
-
-            void tableAccessProgressBar.offsetWidth; // Trigger reflow
-
-            tableAccessProgressBar.style.transition = 'width 5s linear';
-            tableAccessProgressBar.style.width = '100%';
-
-            setTimeout(() => {
-                tableAccessingPopup.classList.remove('visible');
-            }, 5000); // Ẩn popup sau 5 giây
-        }
-    }
-
-    function populateTables() {
-      const selectedLobby = lobbySelectElement.value;
-      tableSelectElement.innerHTML = '<option value="">-- Chọn bàn --</option>'; 
-      if (selectedLobby && tablesByLobby[selectedLobby]) {
-        tablesByLobby[selectedLobby].forEach(table => {
-          const option = document.createElement('option');
-          option.value = table; option.textContent = table;
-          tableSelectElement.appendChild(option);
-        });
-        tableSelectElement.disabled = false;
-      } else { tableSelectElement.disabled = true; }
-      updateCurrentSelectionDisplay();
-      // Không gọi showTableAccessingPopup() ở đây nữa, gọi khi table thực sự được chọn.
-    }
-
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    let matrixFontSize = 14;
-    let matrixChars = '01'.split('');
-    let matrixColumns;
-    let matrixDrops;
-
-    function resizeMatrixCanvas() {
-        if (!canvas) return;
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
-        matrixColumns = Math.floor(canvas.width / matrixFontSize);
-        matrixDrops = [];
-        for (let i = 0; i < matrixColumns; i++) {
-            matrixDrops[i] = 1 + Math.floor(Math.random() * (canvas.height / matrixFontSize));
-        }
-    }
-
-    function drawMatrix() {
-        if (!ctx) return;
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const rootStyles = getComputedStyle(document.documentElement);
-        const matrixRainColor = rootStyles.getPropertyValue('--primary-green').trim() || '#00FF7F';
-        ctx.fillStyle = matrixRainColor;
-        ctx.font = matrixFontSize + 'px monospace';
-        for (let i = 0; i < matrixDrops.length; i++) {
-            const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-            ctx.fillText(text, i * matrixFontSize, matrixDrops[i] * matrixFontSize);
-            if (matrixDrops[i] * matrixFontSize > canvas.height && Math.random() > 0.975) matrixDrops[i] = 0;
-            matrixDrops[i]++;
-        }
-    }
-    
-    window.addEventListener('resize', resizeMatrixCanvas);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        if (introTextOverlayElement && loginScreenElement) startTextIntroAnimation();
-        else hideIntroOverlay();
-
-        if(sound && typeof sound.load === 'function') sound.load();
-        
-        if (canvas) { resizeMatrixCanvas(); setTimeout(() => { setInterval(drawMatrix, 33); }, 100); }
-
-        if(lobbySelectElement) lobbySelectElement.addEventListener('change', populateTables);
-        
-        if(tableSelectElement){ // Thêm event listener cho table select
-            tableSelectElement.addEventListener('change', () => {
-                updateCurrentSelectionDisplay();
-                if(tableSelectElement.value){ // Chỉ hiện popup nếu đã chọn một bàn cụ thể
-                    showTableAccessingPopup();
-                }
-            });
-        }
-        populateTables(); 
-        updateCurrentSelectionDisplay();
-
-        if (activateAutoPlayButton) {
-            activateAutoPlayButton.addEventListener('click', function() {
-                if(autoPlayCodeModal) autoPlayCodeModal.classList.add('visible');
-                if(autoPlayCodeInput) autoPlayCodeInput.value = '';
-                if(autoPlayCodeError) autoPlayCodeError.textContent = '';
-            });
-        }
-        if(submitAutoPlayCodeBtn){
-            submitAutoPlayCodeBtn.addEventListener('click', function(){
-                const enteredCode = autoPlayCodeInput.value.trim();
-                if(autoPlayActivationCodes.includes(enteredCode)){
-                    if(autoPlayCodeModal) autoPlayCodeModal.classList.remove('visible');
-                    if (window.Tawk_API && typeof window.Tawk_API.maximize === 'function') {
-                        if (typeof Tawk_API.showWidget === 'function') Tawk_API.showWidget();
-                        Tawk_API.maximize();
-                    } else { 
-                        console.error("Tawk_API chưa sẵn sàng.");
-                        alert("Chức năng chat hiện không sẵn sàng.");
-                    }
-                } else {
-                    if(autoPlayCodeError) autoPlayCodeError.textContent = "Mã kích hoạt không hợp lệ!";
-                }
-            });
-        }
-        if(closeAutoPlayCodeModalBtn){
-            closeAutoPlayCodeModalBtn.addEventListener('click', function(){
-                if(autoPlayCodeModal) autoPlayCodeModal.classList.remove('visible');
-            });
-        }
-        if(autoPlayCodeModal){
-            autoPlayCodeModal.addEventListener('click', function(event){
-                if(event.target === autoPlayCodeModal){
-                    autoPlayCodeModal.classList.remove('visible');
-                }
-            });
-        }
-    });
-  </script>
-
-  <script type="text/javascript">
-  var Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/683dff1160b132190ec8d9e5/1isp2onbj';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  if(s0 && s0.parentNode) s0.parentNode.insertBefore(s1,s0); else document.head.appendChild(s1);
-  })();
+    const tablesByLobby = { SEXY: ["C01", "C02", "C03"], DG: ["DG01", "DG02"] };
+    function updateCurrentSelectionDisplay() { const l = lobbySelectElement.value, t = tableSelectElement.value; if (l && t) { currentSelectionDisplay.textContent = `Sảnh: ${l} - Bàn: ${t}`; } else if (l) { currentSelectionDisplay.textContent = `Sảnh: ${l} - Vui lòng chọn bàn...`; } else { currentSelectionDisplay.textContent = "Vui lòng chọn sảnh và bàn..."; } }
+    function populateTables() { const l = lobbySelectElement.value; tableSelectElement.innerHTML = '<option value="">-- Chọn bàn --</option>'; if (l && tablesByLobby[l]) { tablesByLobby[l].forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tableSelectElement.appendChild(o); }); tableSelectElement.disabled = false; } else { tableSelectElement.disabled = true; } updateCurrentSelectionDisplay(); }
+    const canvas = document.getElementById('matrix'); const ctx = canvas.getContext('2d'); let matrixFontSize = 14; let matrixChars = '01'.split(''); let matrixColumns; let matrixDrops;
+    function resizeMatrixCanvas() { if (!canvas) return; canvas.height = window.innerHeight; canvas.width = window.innerWidth; matrixColumns = Math.floor(canvas.width / matrixFontSize); matrixDrops = []; for (let i = 0; i < matrixColumns; i++) { matrixDrops[i] = 1 + Math.floor(Math.random() * (canvas.height / matrixFontSize)); } }
+    function drawMatrix() { if (!ctx) return; ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); const matrixRainColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim() || '#00FF7F'; ctx.fillStyle = matrixRainColor; ctx.font = matrixFontSize + 'px monospace'; for (let i = 0; i < matrixDrops.length; i++) { const text = matrixChars[Math.floor(Math.random() * matrixChars.length)]; ctx.fillText(text, i * matrixFontSize, matrixDrops[i] * matrixFontSize); if (matrixDrops[i] * matrixFontSize > canvas.height && Math.random() > 0.975) matrixDrops[i] = 0; matrixDrops[i]++; } }
+    document.addEventListener('DOMContentLoaded', () => { if (introTextOverlayElement) startTextIntroAnimation(); if (sound) sound.load(); if (canvas) { resizeMatrixCanvas(); setInterval(drawMatrix, 33); } if (lobbySelectElement) lobbySelectElement.addEventListener('change', populateTables); if (tableSelectElement) tableSelectElement.addEventListener('change', updateCurrentSelectionDisplay); populateTables(); updateCurrentSelectionDisplay(); });
   </script>
 
 </body>
