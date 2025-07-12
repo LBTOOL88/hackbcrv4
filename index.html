@@ -113,33 +113,29 @@
 @media (max-width: 600px) {
     /* --- CÀI ĐẶT TỔNG THỂ --- */
     html, body {
-        /* Cho phép cuộn dọc nếu nội dung vượt quá chiều cao màn hình, ẩn cuộn ngang */
         overflow-y: auto; 
         overflow-x: hidden;
     }
-
-    /* Giảm padding của khu vực nội dung chính để tiết kiệm không gian */
     .main {
         padding: 15px;
-        margin-bottom: 15px; /* Thêm khoảng trống ở dưới cùng */
+        margin-bottom: 15px;
     }
 
     /* --- HEADER --- */
     header {
-        padding: 10px 15px; /* Giảm padding header */
-        position: relative; /* Cần thiết để định vị nút cài đặt tuyệt đối bên trong */
-        min-height: 80px; /* Đặt chiều cao tối thiểu để không bị vỡ layout */
+        padding: 10px 15px;
+        position: relative;
+        min-height: 80px;
         box-sizing: border-box;
     }
     header h1 {
-        font-size: 1.6em; /* Giảm kích thước tiêu đề chính */
-        width: 100%; /* Cho tiêu đề chiếm toàn bộ chiều rộng */
-        text-align: center; /* Căn giữa tiêu đề */
-        padding-right: 40px; /* Tạo không gian để nút cài đặt không đè lên chữ */
+        font-size: 1.6em;
+        width: 100%;
+        text-align: center;
+        padding-right: 40px;
     }
     #settings-button {
         font-size: 1.8em;
-        /* Đặt vị trí tuyệt đối ở góc trên bên phải của header */
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -147,115 +143,59 @@
     }
 
     /* --- MÀN HÌNH ĐĂNG NHẬP --- */
-    #loginScreen h2 {
-        font-size: 2em; /* Giảm kích thước chữ tiêu đề */
-    }
-    #loginScreen input {
-        width: 95%; /* Tăng chiều rộng input để dễ bấm hơn */
-    }
+    #loginScreen h2 { font-size: 2em; }
+    #loginScreen input { width: 95%; }
 
     /* --- KHU VỰC A.I --- */
-    .ai-container {
-        padding: 15px 10px 0 10px;
-    }
-    #ai-status-panel {
-        font-size: 1em; /* Giảm cỡ chữ trạng thái */
-        padding: 12px 15px;
-    }
-    #ai-log-text {
-        display: block; /* Cho log xuống dòng mới để dễ đọc hơn */
-        margin-top: 5px;
-    }
+    .ai-container { padding: 15px 10px 0 10px; }
+    #ai-status-panel { font-size: 1em; padding: 12px 15px; }
+    #ai-log-text { display: block; margin-top: 5px; }
 
     /* --- KHU VỰC CHỌN BÀN & SẢNH --- */
-    .selection-area .form-group {
-        flex-basis: 100%; /* Chuyển 2 ô chọn thành 2 hàng dọc */
-        margin-bottom: 15px;
-    }
-    /* Xóa margin-bottom của phần tử cuối cùng để khoảng cách đều hơn */
-    .selection-area .form-group:last-child {
-        margin-bottom: 0;
-    }
-    .selection-area select {
-        padding: 12px 16px; /* Giảm nhẹ padding */
-    }
+    .selection-area .form-group { flex-basis: 100%; margin-bottom: 15px; }
+    .selection-area .form-group:last-child { margin-bottom: 0; }
+    .selection-area select { padding: 12px 16px; }
 
     /* --- NÚT BẤM CHÍNH --- */
-    .predict-btn {
-        padding: 18px;
-        font-size: 1.3em;
-    }
+    .predict-btn { padding: 18px; font-size: 1.3em; }
 
     /* --- BÀN CHƠI & DỮ LIỆU PHÂN TÍCH --- */
     #analysis-deck {
-        grid-template-columns: 1fr; /* Chỉ một cột duy nhất */
-        gap: 15px; /* Giảm khoảng cách giữa bàn chơi và panel dữ liệu */
+        grid-template-columns: 1fr; /* Quan trọng: Bố cục 1 cột */
+        gap: 15px;
     }
     
-    /* Bàn chơi ảo */
-    #holographic-table {
-        padding: 10px;
-    }
+    #holographic-table { padding: 10px; }
     #game-board {
-        /* Loại bỏ hiệu ứng xoay 3D để giao diện phẳng, dễ nhìn hơn */
-        transform: none; 
-        height: auto; /* Chiều cao tự động theo nội dung */
-        flex-direction: column; /* Xếp các khu vực lá bài theo chiều dọc */
-        gap: 20px; /* Khoảng cách giữa khu vực Player và Banker */
+        transform: none; /* Quan trọng: Làm phẳng bàn chơi */
+        height: auto;
+        flex-direction: column; /* Quan trọng: Xếp các khu vực bài theo chiều dọc */
+        gap: 20px;
         padding: 15px 0;
     }
     
-    /* Điều chỉnh kích thước lá bài cho vừa vặn */
-    .card-slot {
-        width: 70px;
-        height: 98px;
-    }
+    .card-slot { width: 70px; height: 98px; }
 
-    /* Điểm số và thông báo kết quả */
     .score-display {
-        /* Bỏ định vị tuyệt đối, để điểm số hiển thị theo dòng chảy bình thường */
-        position: static; 
+        position: static; /* Quan trọng: Để điểm số hiển thị theo luồng */
         transform: none;
         text-align: center;
         width: 100%;
-        margin-bottom: 5px; /* Khoảng cách nhỏ với lá bài */
+        margin-bottom: 5px;
     }
-    .player-score, .banker-score {
-        left: auto;
-        right: auto;
-    }
-    /* Đảo thứ tự hiển thị bằng flexbox để khu vực lá bài Player nằm trên điểm Player */
-    .card-area#player-card-area {
-        order: 1;
-    }
-     .score-display.player-score {
-        order: 2;
-    }
-    .card-area#banker-card-area {
-        order: 3;
-    }
-    .score-display.banker-score {
-        order: 4;
-    }
+    .player-score, .banker-score { left: auto; right: auto; }
+    
     #result-announcement { 
-        font-size: 2.2em; /* Giảm kích thước chữ thông báo kết quả */
-        position: absolute; /* Giữ lại để nó nổi lên trên */
+        font-size: 2.2em;
+        position: absolute;
         width: 90%;
         text-align: center;
     }
 
-    /* Panel dữ liệu bên phải (giờ nằm ở dưới) */
-    #data-panel {
-        padding: 15px;
-    }
-    .data-block {
-        padding: 10px;
-    }
-    #ai-prediction-text {
-        font-size: 1.6em; /* Giảm kích thước chữ dự đoán */
-    }
-}
-     }
+    #data-panel { padding: 15px; }
+    .data-block { padding: 10px; }
+    #ai-prediction-text { font-size: 1.6em; }
+}}
   </style>
 </head>
 <body>
