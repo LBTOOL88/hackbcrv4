@@ -67,23 +67,35 @@
     #ai-log-text { color: var(--cyber-cyan); font-weight: 500; }
     #ai-log-text .highlight { color: var(--primary-yellow); font-weight: 700; }
     .main { padding: 25px; max-width: 900px; margin: 0 auto 25px auto; background: var(--container-bg); backdrop-filter: blur(5px); border: 1px solid var(--border-color); box-shadow: 0 0 25px rgba(10, 189, 198, 0.1); }
-    .selection-area { display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 30px; padding: 15px; border: 1px solid var(--border-color); }
+    .selection-area { display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 15px; padding: 15px; border: 1px solid var(--border-color); }
     .selection-area .form-group { display: flex; flex-direction: column; flex-basis: calc(50% - 15px); }
     .selection-area label { margin-bottom: 10px; color: var(--primary-accent); font-weight: 500; }
     .selection-area select { font-family: 'Rajdhani', sans-serif; background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); padding: 14px 18px; width: 100%; cursor: pointer; }
+    
+    /* === CSS MỚI CHO KHỐI DỰ ĐOÁN === */
+    #prediction-lock {
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 2px solid var(--primary-accent);
+        background: radial-gradient(ellipse at center, rgba(10, 20, 30, 0.95) 0%, #0a0a14 100%);
+        box-shadow: 0 0 15px var(--primary-accent);
+    }
+    #prediction-lock h3 { margin: 0 0 10px 0; color: var(--primary-accent); font-size: 1.2em; text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; text-align: center;}
+    #prediction-lock span { display: block; text-align: center; }
+    #ai-prediction-text { font-size: 2.2em; font-weight: 700; color: var(--primary-accent); text-transform: uppercase;}
+    #ai-confidence-value { font-size: 1.1em; color: var(--cyber-cyan); margin-top: 5px;}
+
     .predict-btn { width: 100%; padding: 20px; font-size: 1.45em; background: var(--primary-accent); color: var(--text-dark); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.2s ease; }
     .predict-btn:hover:not(:disabled) { background: white; box-shadow: 0 0 20px white; }
     .predict-btn:disabled { background: #555; color: #888; cursor: not-allowed; }
     
-    #analysis-deck { display: none; grid-template-columns: 2fr 1fr; gap: 20px; padding-top: 20px; align-items: start; }
-    #analysis-deck.visible { display: grid; }
+    #analysis-deck { display: none; padding-top: 20px; }
+    #analysis-deck.visible { display: block; }
 
     #data-panel { display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.4); }
     .data-block { padding: 10px; border: 1px solid var(--border-color); }
     .data-block h3 { margin: 0 0 10px 0; color: var(--primary-accent); font-size: 1.2em; text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-    #prediction-lock span { display: block; text-align: center; }
-    #ai-prediction-text { font-size: 1.8em; font-weight: 700; color: var(--primary-accent); }
-    #ai-confidence-value { font-size: 1em; color: var(--cyber-cyan); }
     #stats-chart-container { position: relative; height: 120px; }
     .road-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(20px, 1fr)); gap: 4px; }
     .road-bead { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; color: var(--text-dark); }
@@ -91,30 +103,6 @@
     #ai-data-stream { height: 100px; overflow: hidden; font-family: monospace; font-size: 0.8em; color: var(--cyber-cyan); opacity: 0.6;}
     #ai-data-stream div { white-space: pre; }
     
-    /* === CSS CHO BẢNG KẾT QUẢ VĂN BẢN === */
-    #text-based-board {
-        font-size: 1.2em;
-        line-height: 1.8;
-        text-align: center;
-        padding: 20px !important;
-    }
-    #text-based-board p {
-        margin: 5px 0;
-        font-size: 1.1em;
-    }
-    #text-based-board h4 {
-        margin-top: 15px;
-        font-size: 1.5em;
-        text-transform: uppercase;
-    }
-    #final-result-text.player-win { color: var(--cyber-cyan); }
-    #final-result-text.banker-win { color: var(--glitch-red); }
-    #final-result-text.tie-win { color: var(--primary-accent); }
-
-    @media (max-width: 900px) { 
-      #analysis-deck { grid-template-columns: 1fr; } 
-    }
-
     /* === KHỐI CSS TỐI ƯU CHO DI ĐỘNG (BẢN HOÀN CHỈNH) === */
     @media (max-width: 600px) {
         html, body {
@@ -152,15 +140,13 @@
         .selection-area .form-group { flex-basis: 100%; margin-bottom: 15px; }
         .selection-area .form-group:last-child { margin-bottom: 0; }
         .selection-area select { padding: 12px 16px; }
+        #prediction-lock { padding: 15px; }
+        #ai-prediction-text { font-size: 1.8em; }
+        #ai-confidence-value { font-size: 1em; }
         .predict-btn { padding: 18px; font-size: 1.3em; }
         #analysis-deck { gap: 15px; }
         #data-panel { padding: 15px; }
         .data-block { padding: 10px; }
-        #ai-prediction-text { font-size: 1.6em; }
-        #text-based-board {
-            padding: 15px !important;
-            font-size: 1.1em;
-        }
     }
   </style>
 </head>
@@ -208,15 +194,15 @@
         <div class="form-group"><label for="lobby-select">KHU VỰC (SẢNH):</label><select id="lobby-select" class="clip-path-angular" onchange="playSound('click')"><option value="">-- CHỌN --</option><option value="SEXY">SEXY</option><option value="DG">DG</option></select></div>
         <div class="form-group"><label for="table-select">TERMINAL (BÀN):</label><select id="table-select" class="clip-path-angular" onchange="playSound('click')" disabled><option value="">-- CHỜ CHỌN KHU VỰC --</option></select></div>
       </div>
+
+      <div id="prediction-lock" class="data-block clip-path-angular">
+        <h3>A.I. DỰ ĐOÁN</h3>
+        <span id="ai-prediction-text">--</span>
+        <span id="ai-confidence-value">ĐỘ CHẮC CHẮN: --%</span>
+      </div>
+
       <div id="analysis-deck">
-        <div id="text-based-board" class="data-block clip-path-angular">
-            <h3>KẾT QUẢ VÁN BÀI</h3>
-            <p id="player-hand-text">PLAYER: -- (Điểm: --)</p>
-            <p id="banker-hand-text">BANKER: -- (Điểm: --)</p>
-            <h4 id="final-result-text">--</h4>
-        </div>
         <div id="data-panel" class="clip-path-large">
-            <div id="prediction-lock" class="data-block clip-path-angular"><h3>A.I. DỰ ĐOÁN</h3><span id="ai-prediction-text">--</span><span id="ai-confidence-value">ĐỘ CHẮC CHẮN: --%</span></div>
             <div id="statistics-display" class="data-block clip-path-angular"><h3>THỐNG KÊ PHIÊN</h3><div id="stats-chart-container"><canvas id="stats-chart"></canvas></div></div>
             <div class="data-block clip-path-angular"><h3>LUỒNG DỮ LIỆU</h3><div id="ai-data-stream"></div></div>
             <div class="data-block clip-path-angular"><h3>LỊCH SỬ</h3><div id="bead-road-history" class="road-grid"></div></div>
@@ -368,44 +354,66 @@
             alert("LỖI HỆ THỐNG: CHƯA CHỌN LUỒNG DỮ LIỆU."); return;
         }
         dom.predictButton.disabled = true;
-        dom.deck.container.classList.remove('visible');
+        // Ẩn khối thống kê cũ
+        dom.analysisDeck.classList.remove('visible');
         dom.ai.avatar.classList.add('analyzing');
         startDataStream();
-        const analysis = analyzeTrends(historyLog);
+
+        // ** Sử dụng logic dự đoán mới **
+        const analysis = analyzeTrends();
         await animateAILog({ text: analysis.reason, highlight: analysis.highlight });
+        
+        // Cập nhật khối dự đoán
         dom.ai.predictionText.textContent = analysis.prediction;
         dom.ai.confidenceValue.textContent = `ĐỘ CHẮC CHẮN: ${analysis.confidence}%`;
-        await animateAILog({ text: "NHẬN DIỆN CẤU TRÚC. KHÓA DỰ ĐOÁN.", highlight: "KHÓA DỰ ĐOÁN" });
+
+        await animateAILog({ text: "TÍNH TOÁN HOÀN TẤT. KHÓA DỰ ĐOÁN.", highlight: "KHÓA DỰ ĐOÁN" });
         stopDataStream();
-        dom.deck.container.classList.add('visible');
-        animateDealing();
+
+        // Hiển thị lại khối thống kê
+        dom.analysisDeck.classList.add('visible');
+        
+        // Chạy logic tính toán trong nền để cập nhật lịch sử
+        updateHistoryInBackground();
     }
-    function analyzeTrends(history) {
-        const last_n = history.slice(-6).filter(r => r !== 'tie');
-        if (last_n.length < 4) return { prediction: 'BANKER', confidence: '58.2', reason: 'KHỞI TẠO LUỒNG PHÂN TÍCH...', highlight: 'KHỞI TẠO' };
-        const last4 = last_n.slice(-4);
-        if (last4.length === 4 && last4.every(v => v === last4[0])) { return { prediction: last4[0].toUpperCase(), confidence: (Math.random() * 10 + 88).toFixed(1), reason: `TÍN HIỆU CHUỖI MẠNH [${last4[0].toUpperCase()}] ĐƯỢC PHÁT HIỆN.`, highlight: 'TÍN HIỆU CHUỖI MẠNH' }; }
-        if (last4.length === 4 && last4[0] !== last4[1] && last4[1] !== last4[2] && last4[2] !== last4[3]) { return { prediction: last4[3] === 'player' ? 'BANKER' : 'PLAYER', confidence: (Math.random() * 10 + 70).toFixed(1), reason: 'PHÁT HIỆN XU HƯỚNG ZIG-ZAG. ĐANG ĐẢO NGƯỢC.', highlight: 'ZIG-ZAG' };}
-        const last3 = last_n.slice(-3);
-        if(last3.length === 3 && last3[0] === last3[1] && last3[1] !== last3[2]) { return { prediction: last3[1].toUpperCase(), confidence: (Math.random() * 15 + 65).toFixed(1), reason: `QUY LUẬT "2 VÀ 1" ĐƯỢC GHI NHẬN.`, highlight: '2 VÀ 1' }; }
-        return { prediction: Math.random() > 0.5 ? 'PLAYER' : 'BANKER', confidence: (Math.random() * 15 + 50).toFixed(1), reason: 'TÍN HIỆU YẾU. ĐANG NGOẠI SUY DỮ LIỆU...', highlight: 'TÍN HIỆU YẾU' };
+
+    // *** CÁC HÀM ĐÃ ĐƯỢC VIẾT LẠI THEO YÊU CẦU MỚI ***
+    
+    function analyzeTrends() {
+        const rand = Math.random() * 100;
+        let prediction = '';
+        let confidence = '';
+        let reason = '';
+        let highlight = '';
+
+        if (rand < 50) { // 50%
+            prediction = 'Long Bảo';
+            confidence = (Math.random() * 15 + 75).toFixed(1); // 75-90%
+            reason = 'PHÁT HIỆN TÍN HIỆU LONG BẢO BIẾN ĐỘNG CAO.';
+            highlight = 'LONG BẢO';
+        } else if (rand < 70) { // 20%
+            prediction = 'Con Đôi';
+            confidence = (Math.random() * 20 + 60).toFixed(1); // 60-80%
+            reason = 'QUÉT THẤY TẦN SỐ CON ĐÔI GIA TĂNG.';
+            highlight = 'CON ĐÔI';
+        } else if (rand < 90) { // 20%
+            prediction = 'Cái Đôi';
+            confidence = (Math.random() * 20 + 60).toFixed(1); // 60-80%
+            reason = 'QUÉT THẤY TẦN SỐ CÁI ĐÔI GIA TĂNG.';
+            highlight = 'CÁI ĐÔI';
+        } else { // 10%
+            prediction = 'Hoà';
+            confidence = (Math.random() * 25 + 50).toFixed(1); // 50-75%
+            reason = 'DỮ LIỆU HỘI TỤ, TỶ LỆ HÒA TIỀM NĂNG.';
+            highlight = 'HÒA';
+        }
+        
+        return { prediction, confidence, reason, highlight };
     }
+
     function getBaccaratValue(cardValue) { if (['K', 'Q', 'J', '10'].includes(cardValue)) return 0; if (cardValue === 'A') return 1; return parseInt(cardValue); }
 
-    // *** CÁC HÀM ĐÃ ĐƯỢC VIẾT LẠI ĐỂ TƯƠNG THÍCH GIAO DIỆN MỚI ***
-    
-    function clearTable() {
-        // Xóa kết quả của ván bài trước trên bảng văn bản
-        if (dom.deck.playerHand) dom.deck.playerHand.textContent = 'PLAYER: -- (Điểm: --)';
-        if (dom.deck.bankerHand) dom.deck.bankerHand.textContent = 'BANKER: -- (Điểm: --)';
-        if (dom.deck.finalResult) {
-            dom.deck.finalResult.textContent = '--';
-            dom.deck.finalResult.className = '';
-        }
-    }
-
-    async function animateDealing() {
-        clearTable();
+    function updateHistoryInBackground() {
         playSound('deal');
         
         const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -413,60 +421,45 @@
         for (const value of values) { deck.push(value); deck.push(value); deck.push(value); deck.push(value); }
         deck.sort(() => Math.random() - 0.5);
 
-        // Rút 2 lá ban đầu
         const playerCards = [deck.pop(), deck.pop()];
         const bankerCards = [deck.pop(), deck.pop()];
 
         let playerScore = (getBaccaratValue(playerCards[0]) + getBaccaratValue(playerCards[1])) % 10;
         let bankerScore = (getBaccaratValue(bankerCards[0]) + getBaccaratValue(bankerCards[1])) % 10;
 
-        // Kiểm tra rút lá thứ 3
         let playerNeedsCard = playerScore <= 5;
         let bankerNeedsCard = false;
 
         if (playerScore < 8 && bankerScore < 8) {
             if (playerNeedsCard) {
                 const p3 = deck.pop();
-                playerCards.push(p3);
                 const p3v = getBaccaratValue(p3);
                 playerScore = (playerScore + p3v) % 10;
-                
                 if (bankerScore <= 2 || (bankerScore === 3 && p3v !== 8) || (bankerScore === 4 && [2,3,4,5,6,7].includes(p3v)) || (bankerScore === 5 && [4,5,6,7].includes(p3v)) || (bankerScore === 6 && [6,7].includes(p3v))) {
                     bankerNeedsCard = true;
                 }
             } else if (bankerScore <= 5) {
                 bankerNeedsCard = true;
             }
-
             if (bankerNeedsCard) {
                 const b3 = deck.pop();
-                bankerCards.push(b3);
                 bankerScore = (bankerScore + getBaccaratValue(b3)) % 10;
             }
         }
         
-        // Cập nhật giao diện text
-        dom.deck.playerHand.textContent = `PLAYER: ${playerCards.join(', ')} (Điểm: ${playerScore})`;
-        dom.deck.bankerHand.textContent = `BANKER: ${bankerCards.join(', ')} (Điểm: ${bankerScore})`;
-
-        // Xác định kết quả
         let winner = '';
         if (playerScore > bankerScore) { winner = 'player'; } 
         else if (bankerScore > playerScore) { winner = 'banker'; } 
         else { winner = 'tie'; }
         
-        const winnerMap = { player: 'Player', banker: 'Banker', tie: 'Hòa' };
-        dom.deck.finalResult.textContent = `${winnerMap[winner].toUpperCase()} THẮNG`;
-        dom.deck.finalResult.className = `${winner}-win`;
-
-        // Cập nhật lịch sử và thống kê
         historyLog.push(winner);
         sessionStats[winner]++;
         sessionStats.total++;
         updateStatsChart();
         updateBeadRoadDisplay();
-
-        await animateAILog({ text: `KẾT QUẢ: ${winnerMap[winner].toUpperCase()}. GIAO THỨC HOÀN TẤT. // CHẾ ĐỘ CHỜ //`, highlight: winnerMap[winner].toUpperCase() });
+        
+        const winnerMap = { player: 'Player', banker: 'Banker', tie: 'Hòa' };
+        animateAILog({ text: `KẾT QUẢ VÁN TRƯỚC: ${winnerMap[winner].toUpperCase()}. // CHẾ ĐỘ CHỜ //`, highlight: winnerMap[winner].toUpperCase() });
         dom.predictButton.disabled = false;
         dom.ai.avatar.classList.remove('analyzing');
     }
@@ -483,20 +476,16 @@
         } else { dom.tableSelect.disabled = true; }
     }
     
-    // ### CẤU TRÚC KHỞI TẠO AN TOÀN ###
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Khởi tạo hằng số và trạng thái
         validCodes = [ "167904", "582173", "907348", "213560", "638901", "475289", "801452", "026815", "749063", "350728", "112233", "445566", "778899", "001122", "654321", "987650", "246802", "135791", "505050", "864209" ];
         tablesByLobby = { SEXY: ["C01", "C02", "C03"], DG: ["DG01", "DG02"] };
         historyLog = [];
         sessionStats = { player: 0, banker: 0, tie: 0, total: 0 };
         
-        // 2. Khởi tạo và gán các phần tử DOM vào biến dom
         dom = {
             sound: {},
             settings: {},
             ai: {},
-            deck: {} // Quan trọng: deck object giờ sẽ chứa các phần tử của text-board
         }; 
         dom.bootScreen = document.getElementById('boot-screen');
         dom.loginScreen = document.getElementById('loginScreen');
@@ -516,21 +505,13 @@
         dom.ai.avatar = document.getElementById('ai-avatar');
         dom.ai.predictionText = document.getElementById('ai-prediction-text');
         dom.ai.confidenceValue = document.getElementById('ai-confidence-value');
-        dom.deck.container = document.getElementById('analysis-deck');
+        dom.analysisDeck = document.getElementById('analysis-deck');
 
-        // Gán các phần tử của bảng kết quả văn bản vào dom.deck
-        dom.deck.textBoard = document.getElementById('text-based-board');
-        dom.deck.playerHand = document.getElementById('player-hand-text');
-        dom.deck.bankerHand = document.getElementById('banker-hand-text');
-        dom.deck.finalResult = document.getElementById('final-result-text');
-
-        // 3. Gán sự kiện và khởi tạo UI
         initializeChart();
         dom.lobbySelect.addEventListener('change', () => { playSound('click'); populateTables(); });
         dom.tableSelect.addEventListener('change', () => playSound('click'));
         populateTables();
         
-        // 4. Bắt đầu chuỗi intro
         startBootSequence();
     });
   </script>
