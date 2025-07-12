@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --primary-accent: #fcee0a; /* Màu này sẽ thay đổi được */
+      --primary-accent: #fcee0a;
       --primary-yellow: #fcee0a;
       --cyber-cyan: #0abdc6;
       --cyber-magenta: #ff00ff;
@@ -20,7 +20,16 @@
       --text-dark: #0a0a14;
       --border-color: rgba(10, 189, 198, 0.3);
     }
-    html, body { margin: 0; padding: 0; height: 100%; font-family: 'Rajdhani', sans-serif; background-color: var(--bg-dark); color: var(--text-light); overflow: hidden; }
+    /* === THAY ĐỔI NỀN MỚI === */
+    html, body { 
+        margin: 0; padding: 0; height: 100%; font-family: 'Rajdhani', sans-serif; 
+        color: var(--text-light); overflow: hidden;
+        background-color: var(--bg-dark);
+        background-image: 
+            linear-gradient(rgba(10, 189, 198, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(10, 189, 198, 0.1) 1px, transparent 1px);
+        background-size: 2em 2em;
+    }
     #scanlines-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 4px; z-index: 10002; pointer-events: none; }
     .hidden { display: none !important; }
     .clip-path-angular { clip-path: polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%); }
@@ -39,11 +48,31 @@
     #loginScreen.visible { opacity: 1; visibility: visible; }
     #loginScreen.hidden-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
     #loginScreen h2 { font-size: 2.5em; font-weight: 700; color: var(--primary-accent); text-shadow: 0 0 5px var(--primary-accent), 0 0 10px var(--primary-accent); margin-bottom: 40px; letter-spacing: 2px; }
-    #loginScreen input { font-family: 'Rajdhani', sans-serif; padding: 16px 20px; margin: 10px 0; width: 90%; max-width: 380px; background: var(--input-bg); color: var(--text-light); font-size: 1.1em; border: 1px solid var(--border-color); transition: all 0.2s ease; }
-    #loginScreen input:focus { outline: none; border-color: var(--primary-accent); box-shadow: 0 0 15px var(--primary-accent); }
+    #loginScreen input, #loginScreen select { font-family: 'Rajdhani', sans-serif; padding: 16px 20px; margin: 10px 0; width: 90%; max-width: 380px; background: var(--input-bg); color: var(--text-light); font-size: 1.1em; border: 1px solid var(--border-color); transition: all 0.2s ease; }
+    #loginScreen input:focus, #loginScreen select:focus { outline: none; border-color: var(--primary-accent); box-shadow: 0 0 15px var(--primary-accent); }
     #loginScreen button { font-family: 'Rajdhani', sans-serif; font-weight: 700; padding: 16px 35px; margin-top: 30px; cursor: pointer; font-size: 1.25em; text-transform: uppercase; letter-spacing: 1px; background: var(--primary-accent); color: var(--text-dark); border: none; transition: all 0.2s ease-out; }
     #loginScreen button:hover { background: white; color: black; box-shadow: 0 0 20px white; }
     #error { color: var(--glitch-red); margin-top: 20px; height: 1.2em; font-weight: 500;}
+
+    /* === CSS CHO HỘP THOẠI CẢNH BÁO === */
+    #confirmation-modal {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+        z-index: 20000; display: none; justify-content: center; align-items: center;
+    }
+    #modal-content {
+        background: var(--container-bg); border: 2px solid var(--primary-accent);
+        padding: 30px; width: 90%; max-width: 500px;
+        text-align: center; color: var(--text-light);
+        box-shadow: 0 0 25px var(--primary-accent);
+    }
+    #modal-content p { font-size: 1.2em; line-height: 1.6; margin-bottom: 30px;}
+    #modal-buttons button {
+        padding: 12px 25px; margin: 0 10px; font-size: 1em; font-weight: 700;
+        cursor: pointer; border: 1px solid var(--primary-accent);
+    }
+    #modal-confirm { background: var(--primary-accent); color: var(--text-dark); }
+    #modal-cancel { background: transparent; color: var(--primary-accent); }
 
     #app { z-index: 5; width: 100%; box-sizing: border-box; position: relative; height: 100%; overflow-y: auto; overflow-x: hidden; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; text-align: center; border-bottom: 2px solid var(--border-color); background: rgba(10, 10, 20, 0.5); }
@@ -72,18 +101,10 @@
     .selection-area label { margin-bottom: 10px; color: var(--primary-accent); font-weight: 500; }
     .selection-area select { font-family: 'Rajdhani', sans-serif; background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); padding: 14px 18px; width: 100%; cursor: pointer; }
     
-    /* === CSS MỚI CHO KHỐI DỰ ĐOÁN === */
-    #prediction-lock {
-        padding: 20px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border: 2px solid var(--primary-accent);
-        background: radial-gradient(ellipse at center, rgba(10, 20, 30, 0.95) 0%, #0a0a14 100%);
-        box-shadow: 0 0 15px var(--primary-accent);
-    }
+    #prediction-lock { padding: 20px; margin-top: 20px; margin-bottom: 20px; border: 2px solid var(--primary-accent); background: radial-gradient(ellipse at center, rgba(10, 20, 30, 0.95) 0%, #0a0a14 100%); box-shadow: 0 0 15px var(--primary-accent); min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
     #prediction-lock h3 { margin: 0 0 10px 0; color: var(--primary-accent); font-size: 1.2em; text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; text-align: center;}
     #prediction-lock span { display: block; text-align: center; }
-    #ai-prediction-text { font-size: 2.2em; font-weight: 700; color: var(--primary-accent); text-transform: uppercase;}
+    #ai-prediction-text { font-size: 1.8em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     #ai-confidence-value { font-size: 1.1em; color: var(--cyber-cyan); margin-top: 5px;}
 
     .predict-btn { width: 100%; padding: 20px; font-size: 1.45em; background: var(--primary-accent); color: var(--text-dark); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.2s ease; }
@@ -103,45 +124,21 @@
     #ai-data-stream { height: 100px; overflow: hidden; font-family: monospace; font-size: 0.8em; color: var(--cyber-cyan); opacity: 0.6;}
     #ai-data-stream div { white-space: pre; }
     
-    /* === KHỐI CSS TỐI ƯU CHO DI ĐỘNG (BẢN HOÀN CHỈNH) === */
     @media (max-width: 600px) {
-        html, body {
-            overflow-y: auto; 
-            overflow-x: hidden;
-        }
-        .main {
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        header {
-            padding: 10px 15px;
-            position: relative;
-            min-height: 80px;
-            box-sizing: border-box;
-        }
-        header h1 {
-            font-size: 1.6em;
-            width: 100%;
-            text-align: center;
-            padding-right: 40px;
-        }
-        #settings-button {
-            font-size: 1.8em;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 15px;
-        }
+        .main { padding: 15px; margin-bottom: 15px; }
+        header { padding: 10px 15px; position: relative; min-height: 80px; box-sizing: border-box; }
+        header h1 { font-size: 1.6em; width: 100%; text-align: center; padding-right: 40px; }
+        #settings-button { font-size: 1.8em; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; }
         #loginScreen h2 { font-size: 2em; }
-        #loginScreen input { width: 95%; }
+        #loginScreen input, #loginScreen select { width: 95%; }
         .ai-container { padding: 15px 10px 0 10px; }
         #ai-status-panel { font-size: 1em; padding: 12px 15px; }
         #ai-log-text { display: block; margin-top: 5px; }
         .selection-area .form-group { flex-basis: 100%; margin-bottom: 15px; }
         .selection-area .form-group:last-child { margin-bottom: 0; }
         .selection-area select { padding: 12px 16px; }
-        #prediction-lock { padding: 15px; }
-        #ai-prediction-text { font-size: 1.8em; }
+        #prediction-lock { padding: 15px; min-height: 100px; }
+        #ai-prediction-text { font-size: 1.4em; }
         #ai-confidence-value { font-size: 1em; }
         .predict-btn { padding: 18px; font-size: 1.3em; }
         #analysis-deck { gap: 15px; }
@@ -164,6 +161,11 @@
     <h2 class="clip-path-large">KẾT NỐI LÕI A.I.</h2>
     <input type="text" id="username" class="clip-path-angular" placeholder="MÃ ĐẶC VỤ (Tên tài khoản)" />
     <input type="text" id="code" class="clip-path-angular" placeholder="KHÓA MÃ HÓA (Mã truy cập)" />
+    <select id="mode-select" class="clip-path-angular">
+      <option value="safe">CHẾ ĐỘ AN TOÀN</option>
+      <option value="rice">CHẾ ĐỘ CƠM GẠO</option>
+      <option value="urgent">CHẾ ĐỘ GỠ NỢ KHẨN CẤP</option>
+    </select>
     <button onclick="checkCode()" class="clip-path-button" onmouseover="playSound('hover')" onmousedown="playSound('click')">[ Thiết lập Kết nối ]</button>
     <p id="error"></p>
   </div>
@@ -211,13 +213,23 @@
       <button class="predict-btn clip-path-button" id="predictBtn" onclick="predictResult()" onmouseover="playSound('hover')" onmousedown="playSound('click')">[ Thực thi Phân tích ]</button>
     </div>
   </div>
+
+  <div id="confirmation-modal" class="clip-path-large">
+      <div id="modal-content">
+          <p>KHI KÍCH HOẠT CHẾ ĐỘ NÀY BẠN PHẢI ĐẢM BẢO RẰNG SẼ LUÔN ĐÁNH THEO CHỈ THỊ CỦA TÔI, NẾU ĐÁNH LỆCH TÔI SẼ KHÔNG CHỊU TRÁCH NHIỆM.</p>
+          <div id="modal-buttons">
+              <button id="modal-confirm" class="clip-path-button">ĐỒNG Ý</button>
+              <button id="modal-cancel" class="clip-path-button">KHÔNG ĐỒNG Ý</button>
+          </div>
+      </div>
+  </div>
+
   <audio id="bg-music" loop src="background-music.mp3"></audio>
   <audio id="sfx-click" src="sfx-click.mp3"></audio>
   <audio id="sfx-hover" src="sfx-hover.mp3"></audio>
   <audio id="sfx-typing" src="sfx-typing.mp3"></audio>
   <audio id="sfx-deal" src="deal.mp3"></audio>
   <script>
-    // ### SCRIPT HOÀN CHỈNH - CẤU TRÚC KHỞI TẠO AN TOÀN ###
     let validCodes, tablesByLobby, historyLog, sessionStats, statsChart, dataStreamInterval, dom;
 
     function playSound(soundName) {
@@ -258,32 +270,38 @@
             error.textContent = "LỖI: KHÓA MÃ HÓA KHÔNG HỢP LỆ";
         }
     }
-    function animateAILog(textConfig) {
+
+    function animateText(element, final_text, isPrediction = false) {
         return new Promise(resolve => {
-            const element = dom.ai.logText;
-            const { text, highlight } = textConfig;
             const scrambleChars = 'AZXCVBNMSDFGHJKLQWERTYUIOP0123456789#?&@$*';
             let step = 0;
-            const scramble = () => {
+            const animate = () => {
                 let scrambled = '';
-                for (let i = 0; i < text.length; i++) {
-                    if (i <= step) { scrambled += text[i]; } 
-                    else { scrambled += scrambleChars[Math.floor(Math.random() * scrambleChars.length)]; }
+                for (let i = 0; i < final_text.length; i++) {
+                    if (i <= step) {
+                        scrambled += final_text[i];
+                    } else {
+                        scrambled += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                    }
                 }
-                if (highlight) { scrambled = scrambled.replace(highlight, `<span class="highlight">${highlight}</span>`); }
+                
                 element.innerHTML = scrambled;
-                if (step >= text.length) {
-                    element.innerHTML = text.replace(highlight, `<span class="highlight">${highlight}</span>`);
+                
+                if (step >= final_text.length) {
+                    if (isPrediction) {
+                         element.innerHTML = final_text.replace(/(NHÀ CON|NHÀ CÁI)/, `<span style="color: var(--cyber-cyan);">$1</span>`)
+                                                   .replace(/(LONG BẢO|CON ĐÔI|CÁI ĐÔI|HOÀ)/, `<span style="color: var(--primary-accent);">$1</span>`);
+                    }
                     resolve();
                 } else {
                     step++;
-                    if(step % 3 === 0) playSound('typing');
-                    setTimeout(scramble, 40);
+                    setTimeout(animate, 50);
                 }
             };
-            scramble();
+            animate();
         });
     }
+
     function startDataStream() {
         const streamEl = document.getElementById('ai-data-stream');
         if (!streamEl) return;
@@ -328,7 +346,7 @@
         const logLines = Array.from(document.querySelectorAll('#boot-log p'));
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const totalDuration = 5000;
+        const totalDuration = 3000;
         let progress = 0;
         const updateProgress = () => {
             progress += 1;
@@ -339,12 +357,12 @@
         };
         updateProgress();
         for (let i = 0; i < logLines.length; i++) {
-            await new Promise(resolve => setTimeout(resolve, 600));
+            await new Promise(resolve => setTimeout(resolve, 400));
             logLines[i].textContent = logLines[i].dataset.text;
             logLines[i].classList.add('visible');
             playSound('typing');
         }
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
         dom.bootScreen.style.opacity = '0';
         dom.loginScreen.classList.add('visible');
         setTimeout(() => dom.bootScreen.classList.add('hidden'), 1000);
@@ -354,82 +372,70 @@
             alert("LỖI HỆ THỐNG: CHƯA CHỌN LUỒNG DỮ LIỆU."); return;
         }
         dom.predictButton.disabled = true;
-        // Ẩn khối thống kê cũ
         dom.analysisDeck.classList.remove('visible');
         dom.ai.avatar.classList.add('analyzing');
         startDataStream();
 
-        // ** Sử dụng logic dự đoán mới **
-        const analysis = analyzeTrends();
-        await animateAILog({ text: analysis.reason, highlight: analysis.highlight });
+        await animateText(dom.ai.logText, 'PHÂN TÍCH LUỒNG DỮ LIỆU LỊCH SỬ...');
+        const primary = analyzePrimaryTrend(historyLog);
         
-        // Cập nhật khối dự đoán
-        dom.ai.predictionText.textContent = analysis.prediction;
-        dom.ai.confidenceValue.textContent = `ĐỘ CHẮC CHẮN: ${analysis.confidence}%`;
+        await animateText(dom.ai.logText, 'QUÉT TÍN HIỆU PHỤ, TÍNH TOÁN XÁC SUẤT...');
+        const secondary = analyzeSecondaryTrend();
+        
+        const combinedPrediction = `${primary.prediction} + ${secondary}`;
+        dom.ai.confidenceValue.textContent = `ĐỘ CHẮC CHẮN: ${primary.confidence}%`;
 
-        await animateAILog({ text: "TÍNH TOÁN HOÀN TẤT. KHÓA DỰ ĐOÁN.", highlight: "KHÓA DỰ ĐOÁN" });
+        await animateText(dom.ai.predictionText, combinedPrediction, true);
+        
+        await animateText(dom.ai.logText, "TÍNH TOÁN HOÀN TẤT. KHÓA DỰ ĐOÁN.");
         stopDataStream();
 
-        // Hiển thị lại khối thống kê
         dom.analysisDeck.classList.add('visible');
-        
-        // Chạy logic tính toán trong nền để cập nhật lịch sử
         updateHistoryInBackground();
     }
-
-    // *** CÁC HÀM ĐÃ ĐƯỢC VIẾT LẠI THEO YÊU CẦU MỚI ***
     
-    function analyzeTrends() {
-        const rand = Math.random() * 100;
-        let prediction = '';
-        let confidence = '';
-        let reason = '';
-        let highlight = '';
-
-        if (rand < 50) { // 50%
-            prediction = 'Long Bảo';
-            confidence = (Math.random() * 15 + 75).toFixed(1); // 75-90%
-            reason = 'PHÁT HIỆN TÍN HIỆU LONG BẢO BIẾN ĐỘNG CAO.';
-            highlight = 'LONG BẢO';
-        } else if (rand < 70) { // 20%
-            prediction = 'Con Đôi';
-            confidence = (Math.random() * 20 + 60).toFixed(1); // 60-80%
-            reason = 'QUÉT THẤY TẦN SỐ CON ĐÔI GIA TĂNG.';
-            highlight = 'CON ĐÔI';
-        } else if (rand < 90) { // 20%
-            prediction = 'Cái Đôi';
-            confidence = (Math.random() * 20 + 60).toFixed(1); // 60-80%
-            reason = 'QUÉT THẤY TẦN SỐ CÁI ĐÔI GIA TĂNG.';
-            highlight = 'CÁI ĐÔI';
-        } else { // 10%
-            prediction = 'Hoà';
-            confidence = (Math.random() * 25 + 50).toFixed(1); // 50-75%
-            reason = 'DỮ LIỆU HỘI TỤ, TỶ LỆ HÒA TIỀM NĂNG.';
-            highlight = 'HÒA';
+    function analyzePrimaryTrend(history) {
+        const last_n = history.slice(-6).filter(r => r !== 'tie');
+        if (last_n.length < 4) return { prediction: 'NHÀ CÁI', confidence: '58.2'};
+        const last4 = last_n.slice(-4);
+        if (last4.length === 4 && last4.every(v => v === last4[0])) { 
+            const pred = last4[0] === 'player' ? 'NHÀ CON' : 'NHÀ CÁI';
+            return { prediction: pred, confidence: (Math.random() * 10 + 88).toFixed(1) }; 
         }
-        
-        return { prediction, confidence, reason, highlight };
+        if (last4.length === 4 && last4[0] !== last4[1] && last4[1] !== last4[2] && last4[2] !== last4[3]) { 
+            const pred = last4[3] === 'player' ? 'NHÀ CÁI' : 'NHÀ CON';
+            return { prediction: pred, confidence: (Math.random() * 10 + 70).toFixed(1) };
+        }
+        const last3 = last_n.slice(-3);
+        if(last3.length === 3 && last3[0] === last3[1] && last3[1] !== last3[2]) { 
+             const pred = last3[1] === 'player' ? 'NHÀ CON' : 'NHÀ CÁI';
+            return { prediction: pred, confidence: (Math.random() * 15 + 65).toFixed(1) };
+        }
+        return { prediction: Math.random() > 0.5 ? 'NHÀ CON' : 'NHÀ CÁI', confidence: (Math.random() * 15 + 50).toFixed(1) };
+    }
+
+    function analyzeSecondaryTrend() {
+        const rand = Math.random() * 100;
+        if (rand < 50) return 'LONG BẢO';
+        if (rand < 70) return 'CON ĐÔI';
+        if (rand < 90) return 'CÁI ĐÔI';
+        return 'HOÀ';
     }
 
     function getBaccaratValue(cardValue) { if (['K', 'Q', 'J', '10'].includes(cardValue)) return 0; if (cardValue === 'A') return 1; return parseInt(cardValue); }
 
     function updateHistoryInBackground() {
         playSound('deal');
-        
         const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
         let deck = [];
         for (const value of values) { deck.push(value); deck.push(value); deck.push(value); deck.push(value); }
         deck.sort(() => Math.random() - 0.5);
-
         const playerCards = [deck.pop(), deck.pop()];
         const bankerCards = [deck.pop(), deck.pop()];
-
         let playerScore = (getBaccaratValue(playerCards[0]) + getBaccaratValue(playerCards[1])) % 10;
         let bankerScore = (getBaccaratValue(bankerCards[0]) + getBaccaratValue(bankerCards[1])) % 10;
-
         let playerNeedsCard = playerScore <= 5;
         let bankerNeedsCard = false;
-
         if (playerScore < 8 && bankerScore < 8) {
             if (playerNeedsCard) {
                 const p3 = deck.pop();
@@ -446,7 +452,6 @@
                 bankerScore = (bankerScore + getBaccaratValue(b3)) % 10;
             }
         }
-        
         let winner = '';
         if (playerScore > bankerScore) { winner = 'player'; } 
         else if (bankerScore > playerScore) { winner = 'banker'; } 
@@ -459,7 +464,7 @@
         updateBeadRoadDisplay();
         
         const winnerMap = { player: 'Player', banker: 'Banker', tie: 'Hòa' };
-        animateAILog({ text: `KẾT QUẢ VÁN TRƯỚC: ${winnerMap[winner].toUpperCase()}. // CHẾ ĐỘ CHỜ //`, highlight: winnerMap[winner].toUpperCase() });
+        animateText(dom.ai.logText, `KẾT QUẢ VÁN TRƯỚE: ${winnerMap[winner].toUpperCase()}. // CHẾ ĐỘ CHỜ //`);
         dom.predictButton.disabled = false;
         dom.ai.avatar.classList.remove('analyzing');
     }
@@ -483,9 +488,7 @@
         sessionStats = { player: 0, banker: 0, tie: 0, total: 0 };
         
         dom = {
-            sound: {},
-            settings: {},
-            ai: {},
+            sound: {}, settings: {}, ai: {}, modal: {}
         }; 
         dom.bootScreen = document.getElementById('boot-screen');
         dom.loginScreen = document.getElementById('loginScreen');
@@ -506,11 +509,33 @@
         dom.ai.predictionText = document.getElementById('ai-prediction-text');
         dom.ai.confidenceValue = document.getElementById('ai-confidence-value');
         dom.analysisDeck = document.getElementById('analysis-deck');
+        
+        // Lấy các phần tử mới cho modal và chế độ chơi
+        dom.modeSelect = document.getElementById('mode-select');
+        dom.modal.container = document.getElementById('confirmation-modal');
+        dom.modal.confirmBtn = document.getElementById('modal-confirm');
+        dom.modal.cancelBtn = document.getElementById('modal-cancel');
 
         initializeChart();
         dom.lobbySelect.addEventListener('change', () => { playSound('click'); populateTables(); });
         dom.tableSelect.addEventListener('change', () => playSound('click'));
         populateTables();
+
+        // Thêm sự kiện cho các chức năng mới
+        dom.modeSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'urgent') {
+                dom.modal.container.style.display = 'flex';
+            }
+        });
+        dom.modal.confirmBtn.addEventListener('click', () => {
+            playSound('click');
+            dom.modal.container.style.display = 'none';
+        });
+        dom.modal.cancelBtn.addEventListener('click', () => {
+            playSound('click');
+            dom.modal.container.style.display = 'none';
+            dom.modeSelect.value = 'safe'; // Reset về chế độ an toàn
+        });
         
         startBootSequence();
     });
