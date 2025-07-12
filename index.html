@@ -110,6 +110,7 @@
 
     /* === KHỐI CSS TỐI ƯU CHO DI ĐỘNG (THAY THẾ) === */
     @media (max-width: 600px) {/* === KHỐI CSS TỐI ƯU CHO DI ĐỘNG (BẢN CẬP NHẬT) === */
+@media (max-width: 600px) {/* === KHỐI CSS TỐI ƯU CHO DI ĐỘNG (BẢN CẬP NHẬT HOÀN CHỈNH) === */
 @media (max-width: 600px) {
     /* --- CÀI ĐẶT TỔNG THỂ --- */
     html, body {
@@ -159,38 +160,53 @@
     /* --- NÚT BẤM CHÍNH --- */
     .predict-btn { padding: 18px; font-size: 1.3em; }
 
-    /* --- BÀN CHƠI & DỮ LIỆU PHÂN TÍCH --- */
+    /************************************************************/
+    /* --- SỬA LỖI HIỂN THỊ KHU VỰC CHIA BÀI (BẮT ĐẦU) --- */
+    /************************************************************/
     #analysis-deck {
-        grid-template-columns: 1fr; /* Quan trọng: Bố cục 1 cột */
+        grid-template-columns: 1fr;
         gap: 15px;
     }
     
     #holographic-table { padding: 10px; }
     #game-board {
-        transform: none; /* Quan trọng: Làm phẳng bàn chơi */
+        transform: none;
         height: auto;
-        flex-direction: column; /* Quan trọng: Xếp các khu vực bài theo chiều dọc */
-        gap: 20px;
+        display: flex; /* Đảm bảo đây là flex container */
+        flex-direction: column;
+        align-items: center; /* Căn giữa các mục theo chiều ngang */
+        gap: 10px; /* Điều chỉnh khoảng cách dọc giữa các mục */
         padding: 15px 0;
     }
     
     .card-slot { width: 70px; height: 98px; }
 
     .score-display {
-        position: static; /* Quan trọng: Để điểm số hiển thị theo luồng */
+        position: static;
         transform: none;
         text-align: center;
         width: 100%;
-        margin-bottom: 5px;
+        margin: 0;
     }
-    .player-score, .banker-score { left: auto; right: auto; }
-    
+
+    /* Sắp xếp lại thứ tự hiển thị bằng 'order' */
+    .card-area#player-card-area { order: 1; }
+    .score-display.player-score { order: 2; margin-top: 5px !important; }
+    .card-area#banker-card-area { order: 3; margin-top: 15px; }
+    .score-display.banker-score { order: 4; margin-top: 5px !important; }
+
     #result-announcement { 
+        position: static; /* Quan trọng: Đưa về luồng hiển thị bình thường */
+        transform: none;  /* Bỏ các hiệu ứng transform cũ */
+        order: 5; /* Quan trọng: Đẩy xuống cuối cùng */
+        margin-top: 15px; /* Tạo khoảng cách với các phần tử bên trên */
         font-size: 2.2em;
-        position: absolute;
-        width: 90%;
+        width: 100%;
         text-align: center;
     }
+    /************************************************************/
+    /* --- SỬA LỖI HIỂN THỊ KHU VỰC CHIA BÀI (KẾT THÚC) --- */
+    /************************************************************/
 
     #data-panel { padding: 15px; }
     .data-block { padding: 10px; }
